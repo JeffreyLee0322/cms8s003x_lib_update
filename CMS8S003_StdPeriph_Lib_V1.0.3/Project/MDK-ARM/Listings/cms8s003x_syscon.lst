@@ -1,0 +1,114 @@
+C51 COMPILER V9.56.0.0   CMS8S003X_SYSCON                                                  05/18/2018 18:04:00 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE CMS8S003X_SYSCON
+OBJECT MODULE PLACED IN .\Objects\cms8s003x_syscon.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c OMF2 O
+                    -PTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S003x_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\cms8s003x_syscon.l
+                    -st) TABS(2) OBJECT(.\Objects\cms8s003x_syscon.obj)
+
+line level    source
+
+   1          #include "cms8s003x_syscon.h"
+   2          
+   3          
+   4          void SYS_GPIO_Alternate_Config(GPIO_NUM num, uint8_t gpio_alt_func)
+   5          {
+   6   1        /*switch(num)
+   7   1        {
+   8   1          case GPIO_NUM_P00: P00CFG |= gpio_alt_func; break;
+   9   1          case GPIO_NUM_P01: P01CFG |= gpio_alt_func; break;
+  10   1          case GPIO_NUM_P02: P02CFG |= gpio_alt_func; break;
+  11   1          case GPIO_NUM_P03: P03CFG |= gpio_alt_func; break;
+  12   1          case GPIO_NUM_P04: P04CFG |= gpio_alt_func; break;
+  13   1          case GPIO_NUM_P05: P05CFG |= gpio_alt_func; break;
+  14   1          case GPIO_NUM_P06: P06CFG |= gpio_alt_func; break;
+  15   1          case GPIO_NUM_P07: P07CFG |= gpio_alt_func; break;
+  16   1          case GPIO_NUM_P10: P10CFG |= gpio_alt_func; break;
+  17   1          case GPIO_NUM_P11: P11CFG |= gpio_alt_func; break;
+  18   1          case GPIO_NUM_P12: P12CFG |= gpio_alt_func; break;
+  19   1          case GPIO_NUM_P13: P13CFG |= gpio_alt_func; break;
+  20   1          case GPIO_NUM_P14: P14CFG |= gpio_alt_func; break;
+  21   1          case GPIO_NUM_P15: P15CFG |= gpio_alt_func; break;
+  22   1          case GPIO_NUM_P16: P16CFG |= gpio_alt_func; break;
+  23   1          case GPIO_NUM_P17: P17CFG |= gpio_alt_func; break;
+  24   1          case GPIO_NUM_P20: P20CFG |= gpio_alt_func; break;
+  25   1          case GPIO_NUM_P21: P21CFG |= gpio_alt_func; break;
+  26   1          case GPIO_NUM_P22: P22CFG |= gpio_alt_func; break;
+  27   1          case GPIO_NUM_P23: P23CFG |= gpio_alt_func; break;
+  28   1          case GPIO_NUM_P24: P24CFG |= gpio_alt_func; break;
+  29   1          case GPIO_NUM_P25: P25CFG |= gpio_alt_func; break;
+  30   1          case GPIO_NUM_P26: P26CFG |= gpio_alt_func; break;
+  31   1          case GPIO_NUM_P27: P27CFG |= gpio_alt_func; break;
+  32   1          case GPIO_NUM_P30: P30CFG |= gpio_alt_func; break;
+  33   1          case GPIO_NUM_P31: P31CFG |= gpio_alt_func; break;
+  34   1          case GPIO_NUM_P32: P32CFG |= gpio_alt_func; break;
+  35   1          case GPIO_NUM_P33: P33CFG |= gpio_alt_func; break;
+  36   1          case GPIO_NUM_P34: P34CFG |= gpio_alt_func; break;
+  37   1          case GPIO_NUM_P35: P35CFG |= gpio_alt_func; break;
+  38   1          case GPIO_NUM_P36: P36CFG |= gpio_alt_func; break;
+  39   1          case GPIO_NUM_P37: P37CFG |= gpio_alt_func; break;
+  40   1          default: break;
+  41   1        }*/
+  42   1        if(num < (GPIO_NUM_P07 + 1))
+  43   1        {
+  44   2            *(volatile unsigned char xdata *)(P0CFG +(uint8_t)num) = 0;
+  45   2            *(volatile unsigned char xdata *)(P0CFG +(uint8_t)num) |= gpio_alt_func;
+  46   2        }else if(num < (GPIO_NUM_P17 + 1))
+  47   1        {
+  48   2            *(volatile unsigned char xdata *)(P1CFG +(uint8_t)(num - 10)) = 0;
+  49   2            *(volatile unsigned char xdata *)(P1CFG +(uint8_t)(num - 10)) |= gpio_alt_func;
+  50   2        }else if(num < (GPIO_NUM_P27 + 1))
+  51   1        {
+  52   2            *(volatile unsigned char xdata *)(P2CFG +(uint8_t)(num-20)) = 0;
+  53   2            *(volatile unsigned char xdata *)(P2CFG +(uint8_t)(num-20)) |= gpio_alt_func;
+C51 COMPILER V9.56.0.0   CMS8S003X_SYSCON                                                  05/18/2018 18:04:00 PAGE 2   
+
+  54   2        }else if(num < (GPIO_NUM_P37 + 1))
+  55   1        {
+  56   2            *(volatile unsigned char xdata *)(P3CFG +(uint8_t)(num-30)) = 0;
+  57   2            *(volatile unsigned char xdata *)(P3CFG +(uint8_t)(num-30)) |= gpio_alt_func;
+  58   2        }
+  59   1      }
+  60          
+  61          /**
+  62            * @brief  Enables or disables the ALL interrupts.
+  63            * @param  NewState : The new state of the specified SPI interrupts.
+  64            *         This parameter can be: ENABLE or DISABLE.
+  65            * @retval None
+  66            */
+  67          void MCU_ITConfig(FunctionalState NewState)
+  68          {
+  69   1        /* Check function parameters */
+  70   1        //assert_param(IS_FUNCTIONAL_STATE(NewState));
+  71   1        
+  72   1        /* Set the SPI IT mask Register */
+  73   1        if (NewState != _DISABLE)
+  74   1        {
+  75   2          EA = 1;  /* Enable the SPI IT */
+  76   2        }
+  77   1        else
+  78   1        {
+  79   2          EA = 0;  /* Disable the SPI IT */
+  80   2        }
+  81   1      }
+  82          
+  83          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     74    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

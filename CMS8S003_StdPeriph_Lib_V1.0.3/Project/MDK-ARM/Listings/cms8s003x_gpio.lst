@@ -1,0 +1,502 @@
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE CMS8S003X_GPIO
+OBJECT MODULE PLACED IN .\Objects\cms8s003x_gpio.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_gpio.c OMF2 OPT
+                    -IMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S003x_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\cms8s003x_gpio.lst) 
+                    -TABS(2) OBJECT(.\Objects\cms8s003x_gpio.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    cms8s003x_gpio.c
+   4            * @author  LI WEI
+   5            * @version V1.0.0
+   6            * @date    04/24/2018
+   7            * @brief   This file provides all the GPIO firmware functions.
+   8            ******************************************************************************
+   9            * @copy
+  10            *
+  11            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  12            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  13            * TIME. AS A RESULT, CMSemicon SHALL NOT BE HELD LIABLE FOR ANY
+  14            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  15            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  16            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  17            *
+  18            * <h2><center>&copy; COPYRIGHT 2018 CMSemicon</center></h2>
+  19            */
+  20          
+  21          /* Includes ------------------------------------------------------------------*/
+  22          #include "cms8s003x_gpio.h"
+  23          #include <CMS\CMS51F003.H>
+  24          #include "cms8s003x_conf.h"
+  25          
+  26          /** @addtogroup cms8s003x_StdPeriph_Driver
+  27            * @{
+  28            */
+  29          
+  30          /* Private typedef -----------------------------------------------------------*/
+  31          /* Private define ------------------------------------------------------------*/
+  32          /* Private macro -------------------------------------------------------------*/
+  33          /* Private variables ---------------------------------------------------------*/
+  34          /* Private function prototypes -----------------------------------------------*/
+  35          /* Private functions ---------------------------------------------------------*/
+  36          
+  37          /**
+  38            * @addtogroup GPIO_Public_Functions
+  39            * @{
+  40            */
+  41          
+  42          /**
+  43            * @brief  Deinitializes the GPIOx peripheral registers to their default reset values.
+  44            * @param  GPIOx: Select the GPIO peripheral number (x = A to I).
+  45            * @retval None
+  46            */
+  47          void GPIO_DeInit(GPIO_Port_Typedef GPIOx)
+  48          {
+  49   1      
+  50   1      }
+*** WARNING C280 IN LINE 47 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_gpio.c: 'GPIOx': unreferenced lo
+             -cal variable
+  51          
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 2   
+
+  52          /**
+  53            * @brief  Initializes the GPIOx according to the specified parameters.
+  54            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
+  55            * @param  GPIO_Pin : This parameter contains the pin number, it can be any value
+  56            *         of the @ref GPIO_Pin_TypeDef enumeration.
+  57            * @param  GPIO_Mode : This parameter can be a value of the
+  58            *         @Ref GPIO_Mode_TypeDef enumeration.
+  59            * @retval None
+  60            */
+  61          uint8_t readTest = 0;
+  62          void GPIO_Init(GPIO_Port_Typedef GPIOx, GPIO_Init_TypeDef* GPIO_InitParam)
+  63          {
+  64   1        //assert_param(IS_GPIO_MODE(GPIO_Mode));
+  65   1        //assert_param(IS_GPIO_PIN(GPIO_Pin));
+  66   1      
+  67   1        if(GPIOx == GPIO_PORT_0)
+  68   1        {
+  69   2            if(GPIO_InitParam->Mode == GPIO_PIN)
+  70   2            {
+  71   3                *(volatile unsigned char xdata *)(P0CFG +(uint8_t)GPIO_InitParam->Pin) = 0;
+  72   3            }
+  73   2            if(GPIO_InitParam->Direction == GPIO_INPUT)                 P0TRIS &= ~GPIO_InitParam->Pin;   //ÊäÈëÄ£Ê½
+  74   2            if(GPIO_InitParam->Direction == GPIO_OUTPUT)                P0TRIS |= GPIO_InitParam->Pin;    //Êä³öÄ£Ê½
+  75   2            if(GPIO_InitParam->Analog == GPIO_Digital_Sel)              P0ANS &= ~GPIO_InitParam->Pin;    //Êý×Ö¶Ë¿Ú   
+             - 
+  76   2            if(GPIO_InitParam->Analog == GPIO_Analog_Sel)               P0ANS |= GPIO_InitParam->Pin;     //Ä£Äâ¶Ë¿Ú
+  77   2            if(GPIO_InitParam->OType == GPIO_Pushpull_Sel)              P0OD &= ~GPIO_InitParam->Pin;     //Õý³£×´Ì¬(ÍÆ
+             -Íì)
+  78   2            if(GPIO_InitParam->OType == GPIO_Opendrain_Sel)             P0OD |= GPIO_InitParam->Pin;      //¿ªÂ©Ä£Ê½
+  79   2            if(GPIO_InitParam->Up == GPIO_Up_Disable)                   P0UP &= ~GPIO_InitParam->Pin;     //¹Ø±ÕÉÏÀ­
+  80   2            if(GPIO_InitParam->Up == GPIO_Up_Enable)                    P0UP |= GPIO_InitParam->Pin;      //¿ªÆôÉÏÀ­
+  81   2            if(GPIO_InitParam->Down == GPIO_Down_Disable)               P0DOWN &= ~GPIO_InitParam->Pin;     //¹Ø±ÕÏÂÀ­
+  82   2            if(GPIO_InitParam->Down == GPIO_Down_Enable)                P0DOWN |= GPIO_InitParam->Pin;      //¿ªÆôÏÂÀ­
+  83   2            if(GPIO_InitParam->Driver == GPIO_Driver_Strong)            P0DR &= ~GPIO_InitParam->Pin;     //ÈõµçÁ÷Çý¶
+             -¯
+  84   2            if(GPIO_InitParam->Driver == GPIO_Driver_Weak)              P0DR |= GPIO_InitParam->Pin;      //Ç¿µçÁ÷Çý¶¯
+  85   2            if(GPIO_InitParam->Slope == GPIO_Slope_Fast)                P0SR &= ~GPIO_InitParam->Pin;     //¿ìÐ±ÂÊ
+  86   2            if(GPIO_InitParam->Slope == GPIO_Slope_Slow)                P0SR |= GPIO_InitParam->Pin;      //ÂýÐ±ÂÊ
+  87   2        }
+  88   1        else if(GPIOx == GPIO_PORT_1)
+  89   1        {
+  90   2            if(GPIO_InitParam->Mode == GPIO_PIN)
+  91   2            {
+  92   3                *(volatile unsigned char xdata *)(P1CFG +(uint8_t)GPIO_InitParam->Pin) = 0;
+  93   3                //readTest = P15CFG;
+  94   3            }
+  95   2            if(GPIO_InitParam->Direction == GPIO_INPUT)                 P1TRIS &= ~GPIO_InitParam->Pin;   //ÊäÈëÄ£Ê½
+  96   2            if(GPIO_InitParam->Direction == GPIO_OUTPUT)                P1TRIS |= GPIO_InitParam->Pin;    //Êä³öÄ£Ê½
+  97   2            if(GPIO_InitParam->Analog == GPIO_Digital_Sel)              P1ANS &= ~GPIO_InitParam->Pin;    //Êý×Ö¶Ë¿Ú   
+             - 
+  98   2            if(GPIO_InitParam->Analog == GPIO_Analog_Sel)               P1ANS |= GPIO_InitParam->Pin;      //Ä£Äâ¶Ë¿Ú
+  99   2            if(GPIO_InitParam->OType == GPIO_Pushpull_Sel)              P1OD &= ~GPIO_InitParam->Pin;     //Õý³£×´Ì¬(ÍÆ
+             -Íì)
+ 100   2            if(GPIO_InitParam->OType == GPIO_Opendrain_Sel)             P1OD |= GPIO_InitParam->Pin;      //¿ªÂ©Ä£Ê½
+ 101   2            if(GPIO_InitParam->Up == GPIO_Up_Disable)                   P1UP &= ~GPIO_InitParam->Pin;     //¹Ø±ÕÉÏÀ­
+ 102   2            if(GPIO_InitParam->Up == GPIO_Up_Enable)                    P1UP |= GPIO_InitParam->Pin;      //¿ªÆôÉÏÀ­
+ 103   2            if(GPIO_InitParam->Down == GPIO_Down_Disable)               P1DOWN &= ~GPIO_InitParam->Pin;     //¹Ø±ÕÏÂÀ­
+ 104   2            if(GPIO_InitParam->Down == GPIO_Down_Enable)                P1DOWN |= GPIO_InitParam->Pin;      //¿ªÆôÏÂÀ­
+ 105   2            if(GPIO_InitParam->Driver == GPIO_Driver_Strong)            P1DR &= ~GPIO_InitParam->Pin;     //ÈõµçÁ÷Çý¶
+             -¯
+ 106   2            if(GPIO_InitParam->Driver == GPIO_Driver_Weak)              P1DR |= GPIO_InitParam->Pin;      //Ç¿µçÁ÷Çý¶¯
+ 107   2            if(GPIO_InitParam->Slope == GPIO_Slope_Fast)                P1SR &= ~GPIO_InitParam->Pin;     //¿ìÐ±ÂÊ
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 3   
+
+ 108   2            if(GPIO_InitParam->Slope == GPIO_Slope_Slow)                P1SR |= GPIO_InitParam->Pin;      //ÂýÐ±ÂÊ
+ 109   2        }
+ 110   1        else if(GPIOx == GPIO_PORT_2)
+ 111   1        {
+ 112   2            if(GPIO_InitParam->Mode == GPIO_PIN)
+ 113   2            {
+ 114   3                *(volatile unsigned char xdata *)(P2CFG +(uint8_t)GPIO_InitParam->Pin) = 0;
+ 115   3                
+ 116   3            }
+ 117   2            if(GPIO_InitParam->Direction == GPIO_INPUT)                 P2TRIS &= ~GPIO_InitParam->Pin;   //ÊäÈëÄ£Ê½
+ 118   2            if(GPIO_InitParam->Direction == GPIO_OUTPUT)                P2TRIS |= GPIO_InitParam->Pin;    //Êä³öÄ£Ê½
+ 119   2            if(GPIO_InitParam->Analog == GPIO_Digital_Sel)              P2ANS &= ~GPIO_InitParam->Pin;    //Êý×Ö¶Ë¿Ú   
+             - 
+ 120   2            if(GPIO_InitParam->Analog == GPIO_Analog_Sel)               P2ANS |= GPIO_InitParam->Pin;      //Ä£Äâ¶Ë¿Ú
+ 121   2            if(GPIO_InitParam->OType == GPIO_Pushpull_Sel)              P2OD &= ~GPIO_InitParam->Pin;     //Õý³£×´Ì¬(ÍÆ
+             -Íì)
+ 122   2            if(GPIO_InitParam->OType == GPIO_Opendrain_Sel)             P2OD |= GPIO_InitParam->Pin;      //¿ªÂ©Ä£Ê½
+ 123   2            if(GPIO_InitParam->Up == GPIO_Up_Disable)                   P2UP &= ~GPIO_InitParam->Pin;     //¹Ø±ÕÉÏÀ­
+ 124   2            if(GPIO_InitParam->Up == GPIO_Up_Enable)                    P2UP |= GPIO_InitParam->Pin;      //¿ªÆôÉÏÀ­
+ 125   2            if(GPIO_InitParam->Down == GPIO_Down_Disable)               P2DOWN &= ~GPIO_InitParam->Pin;     //¹Ø±ÕÏÂÀ­
+ 126   2            if(GPIO_InitParam->Down == GPIO_Down_Enable)                P2DOWN |= GPIO_InitParam->Pin;      //¿ªÆôÏÂÀ­
+ 127   2            if(GPIO_InitParam->Driver == GPIO_Driver_Strong)            P2DR &= ~GPIO_InitParam->Pin;     //ÈõµçÁ÷Çý¶
+             -¯
+ 128   2            if(GPIO_InitParam->Driver == GPIO_Driver_Weak)              P2DR |= GPIO_InitParam->Pin;      //Ç¿µçÁ÷Çý¶¯
+ 129   2            if(GPIO_InitParam->Slope == GPIO_Slope_Fast)                P2SR &= ~GPIO_InitParam->Pin;     //¿ìÐ±ÂÊ
+ 130   2            if(GPIO_InitParam->Slope == GPIO_Slope_Slow)                P2SR |= GPIO_InitParam->Pin;      //ÂýÐ±ÂÊ
+ 131   2        }
+ 132   1        else if(GPIOx == GPIO_PORT_3)
+ 133   1        {
+ 134   2            if(GPIO_InitParam->Mode == GPIO_PIN)
+ 135   2            {
+ 136   3                *(volatile unsigned char xdata *)(P3CFG +(uint8_t)GPIO_InitParam->Pin) = 0;
+ 137   3            }
+ 138   2            if(GPIO_InitParam->Direction == GPIO_INPUT)                 P3TRIS &= ~GPIO_InitParam->Pin;   //ÊäÈëÄ£Ê½
+ 139   2            if(GPIO_InitParam->Direction == GPIO_OUTPUT)                P3TRIS |= GPIO_InitParam->Pin;    //Êä³öÄ£Ê½
+ 140   2            if(GPIO_InitParam->Analog == GPIO_Digital_Sel)              P3ANS &= ~GPIO_InitParam->Pin;    //Êý×Ö¶Ë¿Ú   
+             - 
+ 141   2            if(GPIO_InitParam->Analog == GPIO_Analog_Sel)               P3ANS |= GPIO_InitParam->Pin;      //Ä£Äâ¶Ë¿Ú
+ 142   2            if(GPIO_InitParam->OType == GPIO_Pushpull_Sel)              P3OD &= ~GPIO_InitParam->Pin;     //Õý³£×´Ì¬(ÍÆ
+             -Íì)
+ 143   2            if(GPIO_InitParam->OType == GPIO_Opendrain_Sel)             P3OD |= GPIO_InitParam->Pin;      //¿ªÂ©Ä£Ê½
+ 144   2            if(GPIO_InitParam->Up == GPIO_Up_Disable)                   P3UP &= ~GPIO_InitParam->Pin;     //¹Ø±ÕÉÏÀ­
+ 145   2            if(GPIO_InitParam->Up == GPIO_Up_Enable)                    P3UP |= GPIO_InitParam->Pin;      //¿ªÆôÉÏÀ­
+ 146   2            if(GPIO_InitParam->Down == GPIO_Down_Disable)               P3DOWN &= ~GPIO_InitParam->Pin;     //¹Ø±ÕÏÂÀ­
+ 147   2            if(GPIO_InitParam->Down == GPIO_Down_Enable)                P3DOWN |= GPIO_InitParam->Pin;      //¿ªÆôÏÂÀ­
+ 148   2            if(GPIO_InitParam->Driver == GPIO_Driver_Strong)            P3DR &= ~GPIO_InitParam->Pin;     //ÈõµçÁ÷Çý¶
+             -¯
+ 149   2            if(GPIO_InitParam->Driver == GPIO_Driver_Weak)              P3DR |= GPIO_InitParam->Pin;      //Ç¿µçÁ÷Çý¶¯
+ 150   2            if(GPIO_InitParam->Slope == GPIO_Slope_Fast)                P3SR &= ~GPIO_InitParam->Pin;     //¿ìÐ±ÂÊ
+ 151   2            if(GPIO_InitParam->Slope == GPIO_Slope_Slow)                P3SR |= GPIO_InitParam->Pin;      //ÂýÐ±ÂÊ
+ 152   2        }
+ 153   1      }
+ 154          
+ 155          /**
+ 156            * @brief  Writes data to the specified GPIO data port.
+ 157            * @note   The port must be configured in output mode.
+ 158            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
+ 159            * @param  GPIO_PortVal : Specifies the value to be written to the port output
+ 160            *         data register.
+ 161            * @retval None
+ 162            */
+ 163          void GPIO_Write(GPIO_Port_Typedef GPIOx, uint8_t GPIO_PortVal)
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 4   
+
+ 164          {
+ 165   1        if(GPIOx == GPIO_PORT_0)
+ 166   1        {
+ 167   2          P0 = GPIO_PortVal;
+ 168   2        }else if(GPIOx == GPIO_PORT_1)
+ 169   1        {
+ 170   2          P1 = GPIO_PortVal;
+ 171   2        }else if(GPIOx == GPIO_PORT_2)
+ 172   1        {
+ 173   2          P2 = GPIO_PortVal;
+ 174   2        }else if(GPIOx == GPIO_PORT_3)
+ 175   1        {
+ 176   2          P3 = GPIO_PortVal;
+ 177   2        }else
+ 178   1        {
+ 179   2      
+ 180   2        }
+ 181   1      }
+ 182          
+ 183          /**
+ 184            * @brief  Sets or clears the selected data port bit.
+ 185            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
+ 186            * @param  GPIO_Pin: Specifies the port bit to be written.
+ 187            *         This parameter can be a value of GPIO_Pin_TypeDef enumeration.
+ 188            * @param  GPIO_BitVal: specifies the desired status to be written.
+ 189            *         This parameter can be a value of @ref BitAction enumeration.
+ 190            * @retval None
+ 191            */
+ 192          void GPIO_WriteBit(GPIO_Port_Typedef GPIOx, GPIO_Pin_TypeDef GPIO_Pin, BitAction GPIO_BitVal)
+ 193          {
+ 194   1        /* Check the parameters */
+ 195   1        //assert_param(IS_GPIO_PIN(GPIO_Pin));
+ 196   1        //assert_param(IS_STATE_VALUE(GPIO_BitVal));
+ 197   1      
+ 198   1        if(GPIOx == GPIO_PORT_0)
+ 199   1        {
+ 200   2         if (GPIO_BitVal != _RESET)
+ 201   2         {
+ 202   3            P0  |= GPIO_Pin;
+ 203   3         }else
+ 204   2         {
+ 205   3            P0  &= (uint8_t)(~GPIO_Pin);
+ 206   3         }
+ 207   2        }else if(GPIOx == GPIO_PORT_1)
+ 208   1        {
+ 209   2         if (GPIO_BitVal != _RESET)
+ 210   2         {
+ 211   3            P1  |= GPIO_Pin;
+ 212   3         }else
+ 213   2         {
+ 214   3            P1  &= (uint8_t)(~GPIO_Pin);
+ 215   3         }
+ 216   2        }else if(GPIOx == GPIO_PORT_2)
+ 217   1        {
+ 218   2         if (GPIO_BitVal != _RESET)
+ 219   2         {
+ 220   3            P2  |= GPIO_Pin;
+ 221   3         }else
+ 222   2         {
+ 223   3            P2  &= (uint8_t)(~GPIO_Pin);
+ 224   3         }
+ 225   2        }else if(GPIOx == GPIO_PORT_3)
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 5   
+
+ 226   1        {
+ 227   2         if (GPIO_BitVal != _RESET)
+ 228   2         {
+ 229   3            P3  |= GPIO_Pin;
+ 230   3         }else
+ 231   2         {
+ 232   3            P3  &= (uint8_t)(~GPIO_Pin);
+ 233   3         }
+ 234   2        }else
+ 235   1        {
+ 236   2      
+ 237   2        }
+ 238   1      }
+ 239          
+ 240          /**
+ 241            * @brief  Writes high level to the specified GPIO pins.
+ 242            * @note   The port must be configured in output mode.
+ 243            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
+ 244            * @param  GPIO_Pin : Specifies the pins to be turned high.
+ 245            * @retval None
+ 246            */
+ 247          void GPIO_SetBits(GPIO_Port_Typedef GPIOx, uint8_t GPIO_Pin)
+ 248          {
+ 249   1        if(GPIOx == GPIO_PORT_0)
+ 250   1        {
+ 251   2        P0 |= GPIO_Pin;
+ 252   2        }else if(GPIOx == GPIO_PORT_1)
+ 253   1        {
+ 254   2        P1 |= GPIO_Pin;
+ 255   2        }else if(GPIOx == GPIO_PORT_2)
+ 256   1        {
+ 257   2        P2 |= GPIO_Pin;
+ 258   2        }else if(GPIOx == GPIO_PORT_3)
+ 259   1        {
+ 260   2        P3 |= GPIO_Pin;
+ 261   2        }else
+ 262   1        {
+ 263   2      
+ 264   2        }
+ 265   1      }
+ 266          
+ 267          /**
+ 268            * @brief  Writes low level to the specified GPIO pins.
+ 269            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
+ 270            * @param  GPIO_Pin : Specifies the pins to be turned low
+ 271            * @retval None
+ 272            * @par    Required preconditions:
+ 273            *   The port must be configured in output mode.
+ 274            */
+ 275          void GPIO_ResetBits(GPIO_Port_Typedef GPIOx, uint8_t GPIO_Pin)
+ 276          {
+ 277   1        if(GPIOx == GPIO_PORT_0)
+ 278   1        {
+ 279   2        P0  &= (uint8_t)(~GPIO_Pin);
+ 280   2        }else if(GPIOx == GPIO_PORT_1)
+ 281   1        {
+ 282   2        P1 &= (uint8_t)(~GPIO_Pin);
+ 283   2        }else if(GPIOx == GPIO_PORT_2)
+ 284   1        {
+ 285   2        P2 &= (uint8_t)(~GPIO_Pin);
+ 286   2        }else if(GPIOx == GPIO_PORT_3)
+ 287   1        {
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 6   
+
+ 288   2        P3 &= (uint8_t)(~GPIO_Pin);
+ 289   2        }else
+ 290   1        {
+ 291   2      
+ 292   2        }
+ 293   1      }
+ 294          
+ 295          /**
+ 296            * @brief  Toggles the specified GPIO pins.
+ 297            * @note   The port must be configured in output mode.
+ 298            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
+ 299            * @param  GPIO_Pin : Specifies the pins to be toggled.
+ 300            * @retval None
+ 301            */
+ 302          void GPIO_ToggleBits(GPIO_Port_Typedef GPIOx, uint8_t GPIO_Pin)
+ 303          {
+ 304   1        if(GPIOx == GPIO_PORT_0)
+ 305   1        {
+ 306   2        P0  ^= GPIO_Pin;
+ 307   2        }else if(GPIOx == GPIO_PORT_1)
+ 308   1        {
+ 309   2        P1 ^= GPIO_Pin;
+ 310   2        }else if(GPIOx == GPIO_PORT_2)
+ 311   1        {
+ 312   2        P2 ^= GPIO_Pin;
+ 313   2        }else if(GPIOx == GPIO_PORT_3)
+ 314   1        {
+ 315   2        P3 ^= GPIO_Pin;
+ 316   2        }else
+ 317   1        {
+ 318   2      
+ 319   2        }
+ 320   1      }
+ 321          
+ 322          /**
+ 323            * @brief  Reads the specified GPIO input data port.
+ 324            * @note   The port must be configured in input mode.
+ 325            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
+ 326            * @retval The GPIOx input data port value.
+ 327            */
+ 328          uint8_t GPIO_ReadInputData(GPIO_Port_Typedef GPIOx)
+ 329          {
+ 330   1        uint8_t dataRead = 0;
+ 331   1        if(GPIOx == GPIO_PORT_0)
+ 332   1        {
+ 333   2        dataRead = (uint8_t)P0;
+ 334   2        }else if(GPIOx == GPIO_PORT_1)
+ 335   1        {
+ 336   2        dataRead = (uint8_t)P1;
+ 337   2        }else if(GPIOx == GPIO_PORT_2)
+ 338   1        {
+ 339   2        dataRead = (uint8_t)P2;
+ 340   2        }else if(GPIOx == GPIO_PORT_3)
+ 341   1        {
+ 342   2        dataRead = (uint8_t)P3;
+ 343   2        }else
+ 344   1        {
+ 345   2      
+ 346   2        }
+ 347   1        return dataRead;
+ 348   1      }
+ 349          
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 7   
+
+ 350          /**
+ 351            * @brief  Reads the specified GPIO output data port.
+ 352            * @note   The port must be configured in input mode.
+ 353            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
+ 354            * @retval The GPIOx  output data port value.
+ 355            */
+ 356          uint8_t GPIO_ReadOutputData(GPIO_Port_Typedef GPIOx)
+ 357          {
+ 358   1        uint8_t dataRead = 0;
+ 359   1        if(GPIOx == GPIO_PORT_0)
+ 360   1        {
+ 361   2        dataRead = (uint8_t)P0;
+ 362   2        }else if(GPIOx == GPIO_PORT_1)
+ 363   1        {
+ 364   2        dataRead = (uint8_t)P1;
+ 365   2        }else if(GPIOx == GPIO_PORT_2)
+ 366   1        {
+ 367   2        dataRead = (uint8_t)P2;
+ 368   2        }else if(GPIOx == GPIO_PORT_3)
+ 369   1        {
+ 370   2        dataRead = (uint8_t)P3;
+ 371   2        }else
+ 372   1        {
+ 373   2      
+ 374   2        }
+ 375   1        return dataRead;
+ 376   1      }
+ 377          
+ 378          /**
+ 379            * @brief  Reads the specified GPIO input data pin.
+ 380            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
+ 381            * @param  GPIO_Pin : Specifies the pin number.
+ 382            * @retval BitStatus : GPIO input pin status.
+ 383            */
+ 384          BitStatus GPIO_ReadInputDataBit(GPIO_Port_Typedef GPIOx, GPIO_Pin_TypeDef GPIO_Pin)
+ 385          {
+ 386   1        uint8_t dataRead = 0;
+ 387   1        if(GPIOx == GPIO_PORT_0)
+ 388   1        {
+ 389   2        dataRead = ((BitStatus)(P0 & (uint8_t)GPIO_Pin));
+ 390   2        }else if(GPIOx == GPIO_PORT_1)
+ 391   1        {
+ 392   2        dataRead = ((BitStatus)(P1 & (uint8_t)GPIO_Pin));
+ 393   2        }else if(GPIOx == GPIO_PORT_2)
+ 394   1        {
+ 395   2        dataRead = ((BitStatus)(P2 & (uint8_t)GPIO_Pin));
+ 396   2        }else if(GPIOx == GPIO_PORT_3)
+ 397   1        {
+ 398   2        dataRead = ((BitStatus)(P3 & (uint8_t)GPIO_Pin));
+ 399   2        }else
+ 400   1        {
+ 401   2      
+ 402   2        }
+ 403   1        return dataRead;
+ 404   1      }
+ 405          
+ 406          /**
+ 407            * @brief  Reads the specified GPIO Output data pin.
+ 408            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
+ 409            * @param  GPIO_Pin : Specifies the pin number
+ 410            * @retval BitStatus : GPIO output pin status.
+ 411            */
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 8   
+
+ 412          BitStatus GPIO_ReadOutputDataBit(GPIO_Port_Typedef GPIOx, GPIO_Pin_TypeDef GPIO_Pin)
+ 413          {
+ 414   1        uint8_t dataRead = 0;
+ 415   1        if(GPIOx == GPIO_PORT_0)
+ 416   1        {
+ 417   2        dataRead = ((BitStatus)(P0 & (uint8_t)GPIO_Pin));
+ 418   2        }else if(GPIOx == GPIO_PORT_1)
+ 419   1        {
+ 420   2        dataRead = ((BitStatus)(P1 & (uint8_t)GPIO_Pin));
+ 421   2        }else if(GPIOx == GPIO_PORT_2)
+ 422   1        {
+ 423   2        dataRead = ((BitStatus)(P2 & (uint8_t)GPIO_Pin));
+ 424   2        }else if(GPIOx == GPIO_PORT_3)
+ 425   1        {
+ 426   2        dataRead = ((BitStatus)(P3 & (uint8_t)GPIO_Pin));
+ 427   2        }else
+ 428   1        {
+ 429   2      
+ 430   2        }
+ 431   1        return dataRead;
+ 432   1      }
+ 433          
+ 434          
+ 435          
+ 436          /**
+ 437            * @}
+ 438            */
+ 439          
+ 440          /**
+ 441            * @}
+ 442            */
+ 443          
+ 444          /******************* (C) COPYRIGHT 2018 CMSemicon *****END OF FILE****/
+ 445          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1959    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

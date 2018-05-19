@@ -1,0 +1,185 @@
+C51 COMPILER V9.56.0.0   MAIN                                                              05/18/2018 18:13:03 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\src\main.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S
+                    -003x_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    cms8s003x_spi.c
+   4            * @author  LI WEI
+   5            * @version V1.0.0
+   6            * @date    04/26/2018
+   7            * @brief   This file provides MAIN entrance.
+   8            ******************************************************************************
+   9            * @copy
+  10            *
+  11            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  12            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  13            * TIME. AS A RESULT, CMSemicon SHALL NOT BE HELD LIABLE FOR ANY
+  14            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  15            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  16            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  17            *
+  18            * <h2><center>&copy; COPYRIGHT 2018 CMSemicon</center></h2>
+  19            */
+  20          
+  21          #include <CMS\CMS51F003.H>
+  22          #include "cms8s003x_spi.h"
+  23          #include "cms8s003x_syscon.h"
+  24          #include "cms8s003x_gpio.h"
+  25          #include "cms8s003x_clk.h"
+  26          #include "cms8s003x_tim01.h"
+  27          
+  28          
+  29          
+  30          //#define TEST_SPI
+  31          //#define TEST_GPIO
+  32          #define TEST_TIMER
+  33          
+  34          #ifdef TEST_SPI
+              void SPIMaster_Config(void)
+              {
+                SPI_Init_TypeDef SPI_InitStructure;                        // 结构定义
+                SPI_InitStructure.SPI_Mode = SPI_Mode_Master;              //SPI选择主机模式
+                SPI_InitStructure.SPI_CPOL = SPI_CPOL_LOW;                   //SPI空闲模式选择高电平
+                SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;                   //SPI时钟极性选择0 
+                SPI_InitStructure.SPI_Frequency = SPI_BaudRatePrescaler_32;     //SPI的时钟选择
+              
+                SPI_Init(&SPI_InitStructure);
+                //SPI_NSSInternalSoftwareCmd(SPI_SSCR_SSO0, _ENABLE);
+                
+                SPI_ITConfig(SPI_Interrupt_Priority_LOW, _ENABLE);
+                SPI_Cmd(_ENABLE);
+                MCU_ITConfig(_ENABLE);
+              }
+              
+              void SPI_IO_Config(void)
+              {
+                GPIO_Init_TypeDef GPIO_InitStructure;
+                
+C51 COMPILER V9.56.0.0   MAIN                                                              05/18/2018 18:13:03 PAGE 2   
+
+                SYS_GPIO_Alternate_Config(GPIO_NUM_P15, P15_ALT_SCLK);
+                SYS_GPIO_Alternate_Config(GPIO_NUM_P16, P16_ALT_MOSI);
+                SYS_GPIO_Alternate_Config(GPIO_NUM_P17, P17_ALT_MISO);
+                
+                GPIO_InitStructure.Mode = GPIO_ALT;
+                GPIO_InitStructure.Direction = GPIO_OUTPUT;
+                GPIO_InitStructure.Analog = GPIO_Digital_Sel;
+                GPIO_InitStructure.OType = GPIO_Pushpull_Sel;
+                GPIO_InitStructure.Up = GPIO_Up_Disable;
+                GPIO_InitStructure.Down = GPIO_Down_Disable;
+                GPIO_InitStructure.Driver = GPIO_Driver_Weak;
+                GPIO_InitStructure.Slope = GPIO_Slope_Slow;
+                GPIO_InitStructure.Pin = GPIO_PIN_5;
+                GPIO_Init(GPIO_PORT_1, &GPIO_InitStructure);
+                
+                GPIO_InitStructure.Mode = GPIO_ALT;
+                GPIO_InitStructure.Direction = GPIO_INPUT;
+                GPIO_InitStructure.Analog = GPIO_Digital_Sel;
+                GPIO_InitStructure.Up = GPIO_Up_Enable;
+                GPIO_InitStructure.Pin = GPIO_PIN_7;
+                GPIO_Init(GPIO_PORT_1, &GPIO_InitStructure);
+              }
+              #endif
+  78          
+  79          #ifdef TEST_GPIO
+              void test_gpio_init(void)
+              {
+                GPIO_Init_TypeDef GPIO_InitStructure;
+                GPIO_InitStructure.Mode = GPIO_PIN;
+                GPIO_InitStructure.Direction = GPIO_OUTPUT;
+                GPIO_InitStructure.Analog = GPIO_Digital_Sel;
+                GPIO_InitStructure.OType = GPIO_Pushpull_Sel;
+                GPIO_InitStructure.Up = GPIO_Up_Disable;
+                GPIO_InitStructure.Down = GPIO_Down_Enable;
+                GPIO_InitStructure.Driver = GPIO_Driver_Weak;
+                GPIO_InitStructure.Slope = GPIO_Slope_Slow;
+                GPIO_InitStructure.Pin = GPIO_PIN_5;
+                
+                GPIO_Init(GPIO_PORT_1, &GPIO_InitStructure);
+              }
+              #endif
+  96          
+  97          #ifdef TEST_TIMER
+  98          void test_sysClock_init(void)
+  99          {
+ 100   1        CLK_SYSCLKDivConfig(16);//sys clk is 4MHz
+ 101   1      }
+ 102          
+ 103          void test_timer_init(void)
+ 104          {
+ 105   1        TIM01_Init_TypeDef TIM0_InitStructure;
+ 106   1        TIM0_InitStructure.Timer_Function = TIM_Function_Timer;
+ 107   1        TIM0_InitStructure.Timer_Mode = Mode2_8Bit_AutoLoad_Timer_Counter;
+ 108   1        TIM0_InitStructure.Timer_Clock = SYSCLK_Prescaler_4;//timer frequency is 1/4 MHz || T = 4us
+ 109   1        TIM0_InitStructure.Timer_InitValue = 250;//1ms
+ 110   1        TIM0_Init(&TIM0_InitStructure);
+ 111   1        
+ 112   1        TIM0_ITConfig(TIM_HIGH_Priority, _ENABLE);
+ 113   1        TIM0_Cmd(_ENABLE);
+ 114   1      }
+ 115          #endif
+ 116          
+C51 COMPILER V9.56.0.0   MAIN                                                              05/18/2018 18:13:03 PAGE 3   
+
+ 117          void Delay_Time(int time)
+ 118          {
+ 119   1        while(time> 0)
+ 120   1        {
+ 121   2          time--;
+ 122   2        }
+ 123   1      }
+ 124          
+ 125          void main(void)
+ 126          {
+ 127   1      #ifdef TEST_SPI
+                SPI_IO_Config();
+                SPIMaster_Config();
+                while(1)
+                {
+                  SPI_SendData(0x42);
+                  Delay_Time(100);
+                }
+              #endif
+ 136   1        
+ 137   1      #ifdef TEST_GPIO
+                  test_gpio_init();
+                  GPIO_Write(GPIO_PORT_1, 1);
+              #endif
+ 141   1        
+ 142   1      #ifdef TEST_TIMER
+ 143   1          test_sysClock_init();
+ 144   1          test_timer_init();
+ 145   1      #endif
+ 146   1      
+ 147   1        while(1);
+ 148   1      }
+ 149          
+ 150          
+ 151          
+ 152          
+ 153          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     72    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
