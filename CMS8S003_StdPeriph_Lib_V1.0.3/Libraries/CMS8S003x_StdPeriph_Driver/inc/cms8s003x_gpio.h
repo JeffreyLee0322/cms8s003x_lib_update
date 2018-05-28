@@ -24,10 +24,8 @@
 #define __CMS8S003x_GPIO_H
 
 /* Includes ------------------------------------------------------------------*/
-//#include "cms8s003x.h"
-#include <CMS\CMS51F003.H>
+#include <CMS\CMS8S003.H>
 #include "cms8s003x_conf.h"
-//#include "SCCH5102.h"
 
 /** @addtogroup CMS8S003x_StdPeriph_Driver
   * @{

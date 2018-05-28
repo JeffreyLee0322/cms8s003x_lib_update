@@ -92,20 +92,20 @@ void GPIO_Init(GPIO_Port_Typedef GPIOx, GPIO_Init_TypeDef* GPIO_InitParam)
 					*(volatile unsigned char xdata *)(P1CFG +(uint8_t)GPIO_InitParam->Pin) = 0;
 					//readTest = P15CFG;
 			}
-  		if(GPIO_InitParam->Direction == GPIO_INPUT)    							P1TRIS &= ~GPIO_InitParam->Pin;   //输入模式
-  		if(GPIO_InitParam->Direction == GPIO_OUTPUT) 								P1TRIS |= GPIO_InitParam->Pin;    //输出模式
-			if(GPIO_InitParam->Analog == GPIO_Digital_Sel)     					P1ANS &= ~GPIO_InitParam->Pin;    //数字端口    
-			if(GPIO_InitParam->Analog == GPIO_Analog_Sel)      					P1ANS |= GPIO_InitParam->Pin; 	   //模拟端口
-			if(GPIO_InitParam->OType == GPIO_Pushpull_Sel)      				P1OD &= ~GPIO_InitParam->Pin;     //正常状态(推挽)
-			if(GPIO_InitParam->OType == GPIO_Opendrain_Sel)     				P1OD |= GPIO_InitParam->Pin;      //开漏模式
-			if(GPIO_InitParam->Up == GPIO_Up_Disable)       						P1UP &= ~GPIO_InitParam->Pin;     //关闭上拉
-  		if(GPIO_InitParam->Up == GPIO_Up_Enable)		    						P1UP |= GPIO_InitParam->Pin;      //开启上拉
-			if(GPIO_InitParam->Down == GPIO_Down_Disable)       				P1DOWN &= ~GPIO_InitParam->Pin;     //关闭下拉
-  		if(GPIO_InitParam->Down == GPIO_Down_Enable)		    				P1DOWN |= GPIO_InitParam->Pin;      //开启下拉
-			if(GPIO_InitParam->Driver == GPIO_Driver_Strong)       			P1DR &= ~GPIO_InitParam->Pin;     //弱电流驱动
-  		if(GPIO_InitParam->Driver == GPIO_Driver_Weak)		    			P1DR |= GPIO_InitParam->Pin;      //强电流驱动
-			if(GPIO_InitParam->Slope == GPIO_Slope_Fast)       					P1SR &= ~GPIO_InitParam->Pin;     //快斜率
-  		if(GPIO_InitParam->Slope == GPIO_Slope_Slow)		    				P1SR |= GPIO_InitParam->Pin;      //慢斜率
+  		if(GPIO_InitParam->Direction == GPIO_INPUT)    							P1TRIS &= ~(1 << GPIO_InitParam->Pin);   //输入模式
+  		if(GPIO_InitParam->Direction == GPIO_OUTPUT) 								P1TRIS |= (1 << GPIO_InitParam->Pin);    //输出模式
+			if(GPIO_InitParam->Analog == GPIO_Digital_Sel)     					P1ANS &= ~(1 << GPIO_InitParam->Pin);    //数字端口    
+			if(GPIO_InitParam->Analog == GPIO_Analog_Sel)      					P1ANS |= (1 << GPIO_InitParam->Pin); 	  //模拟端口
+			if(GPIO_InitParam->OType == GPIO_Pushpull_Sel)      				P1OD &= ~(1 << GPIO_InitParam->Pin);     //正常状态(推挽)
+			if(GPIO_InitParam->OType == GPIO_Opendrain_Sel)     				P1OD |= (1 << GPIO_InitParam->Pin);      //开漏模式
+			if(GPIO_InitParam->Up == GPIO_Up_Disable)       						P1UP &= ~(1 << GPIO_InitParam->Pin);     //关闭上拉
+  		if(GPIO_InitParam->Up == GPIO_Up_Enable)		    						P1UP |= (1 << GPIO_InitParam->Pin);      //开启上拉
+			if(GPIO_InitParam->Down == GPIO_Down_Disable)       				P1DOWN &= ~(1 << GPIO_InitParam->Pin);   //关闭下拉
+  		if(GPIO_InitParam->Down == GPIO_Down_Enable)		    				P1DOWN |= (1 << GPIO_InitParam->Pin);    //开启下拉
+			if(GPIO_InitParam->Driver == GPIO_Driver_Strong)       			P1DR &= ~(1 << GPIO_InitParam->Pin);     //弱电流驱动
+  		if(GPIO_InitParam->Driver == GPIO_Driver_Weak)		    			P1DR |= (1 << GPIO_InitParam->Pin);      //强电流驱动
+			if(GPIO_InitParam->Slope == GPIO_Slope_Fast)       					P1SR &= ~(1 << GPIO_InitParam->Pin);     //快斜率
+  		if(GPIO_InitParam->Slope == GPIO_Slope_Slow)		    				P1SR |= (1 << GPIO_InitParam->Pin);      //慢斜率
 	}
 	else if(GPIOx == GPIO_PORT_2)
 	{

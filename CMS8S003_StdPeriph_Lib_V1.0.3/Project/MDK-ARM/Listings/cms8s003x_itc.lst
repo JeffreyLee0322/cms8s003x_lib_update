@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   CMS8S003X_ITC                                                     05/18/2018 18:04:00 PAGE 1   
+C51 COMPILER V9.56.0.0   CMS8S003X_ITC                                                     05/28/2018 18:06:57 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE CMS8S003X_ITC
@@ -31,9 +31,9 @@ line level    source
   20          
   21          /* Includes ------------------------------------------------------------------*/
   22          #include "cms8s003x_itc.h"
-  23          
-  24          #include "cms8s003x_spi.h"
-  25          #include "cms8s003x_tim01.h"
+  23          #include "cms8s003x_spi.h"
+  24          #include "cms8s003x_tim01.h"
+  25          #include "cms8s003x_gpio.h"
   26          
   27          /** @addtogroup CMS8S003x_StdPeriph_Driver
   28            * @{
@@ -43,95 +43,100 @@ line level    source
   32          /* Private define ------------------------------------------------------------*/
   33          /* Private macro -------------------------------------------------------------*/
   34          /* Private variables ---------------------------------------------------------*/
-  35          /* Private function prototypes -----------------------------------------------*/
-  36          /* Private functions ---------------------------------------------------------*/
-  37          
-  38          /** @addtogroup ITC_Private_Functions
-  39            * @{
-  40            */
-  41          
+  35          uint32_t timer0Count = 0;
+  36          /* Private function prototypes -----------------------------------------------*/
+  37          /* Private functions ---------------------------------------------------------*/
+  38          
+  39          /** @addtogroup ITC_Private_Functions
+  40            * @{
+  41            */
   42          
   43          
-  44          /**
-  45            * @}
-  46            */
-  47          
-  48          /** @addtogroup ITC_Public_Functions
-  49            * @{
-  50            */
-  51          
-  52          /**
-  53            * @brief  Deinitializes the ITC registers to their default reset value.
-C51 COMPILER V9.56.0.0   CMS8S003X_ITC                                                     05/18/2018 18:04:00 PAGE 2   
+  44          
+  45          /**
+  46            * @}
+  47            */
+  48          
+  49          /** @addtogroup ITC_Public_Functions
+  50            * @{
+  51            */
+  52          
+  53          /**
+C51 COMPILER V9.56.0.0   CMS8S003X_ITC                                                     05/28/2018 18:06:57 PAGE 2   
 
-  54            * @param  None
-  55            * @retval None
-  56           */
-  57          void ITC_DeInit(void)
-  58          {
-  59   1      
-  60   1      }
-  61          
-  62          //unsigned int times = 0;   
-  63          void SPI_ISR() interrupt 22
-  64          {
-  65   1        FlagStatus status = 0;
-  66   1        ITStatus  itS = 0;
-  67   1        if(SPI_GetFlagStatus(Peripheral_SPI_Interrupt)) //SPI总中断指示位  清除具体的中断标志位后 此位自动清除
-  68   1        {
-  69   2          if(SPI_GetITStatus(SPI_FLAG_SPISIF))        //SPI传输完毕中断标志位 先读SPSR 再度写SPDR后清0
-  70   2          {
-  71   3             /*if(times<5)
-  72   3             {
-  73   3               Master_Received[times] = SPI_ReceiveData();
-  74   3              
-  75   3               if(times < 4)
-  76   3                 SPI_SendData(0x40);
-  77   3             }
-  78   3             times++;*/
-  79   3          }
-  80   2          else if(SPI_GetITStatus(SPI_FLAG_WCOL))   //SPI 写冲突中断标志位 先读SPSR 再读写SPDR后清0
-  81   2          {
-  82   3      
-  83   3          }
-  84   2          else if(SPI_GetITStatus(SPI_FLAG_MODF))   //SPI模式错误中断标志 先读SPSR 再读写SPCR后清0
-  85   2          {
-  86   3          }
-  87   2        }
-  88   1      }
-  89          
+  54            * @brief  Deinitializes the ITC registers to their default reset value.
+  55            * @param  None
+  56            * @retval None
+  57           */
+  58          void ITC_DeInit(void)
+  59          {
+  60   1      
+  61   1      }
+  62          
+  63          //unsigned int times = 0;   
+  64          void SPI_ISR() interrupt 22
+  65          {
+  66   1        FlagStatus status = 0;
+  67   1        ITStatus  itS = 0;
+  68   1        if(SPI_GetFlagStatus(Peripheral_SPI_Interrupt)) //SPI总中断指示位  清除具体的中断标志位后 此位自动清除
+  69   1        {
+  70   2          if(SPI_GetITStatus(SPI_FLAG_SPISIF))        //SPI传输完毕中断标志位 先读SPSR 再度写SPDR后清0
+  71   2          {
+  72   3             /*if(times<5)
+  73   3             {
+  74   3               Master_Received[times] = SPI_ReceiveData();
+  75   3              
+  76   3               if(times < 4)
+  77   3                 SPI_SendData(0x40);
+  78   3             }
+  79   3             times++;*/
+  80   3          }
+  81   2          else if(SPI_GetITStatus(SPI_FLAG_WCOL))   //SPI 写冲突中断标志位 先读SPSR 再读写SPDR后清0
+  82   2          {
+  83   3      
+  84   3          }
+  85   2          else if(SPI_GetITStatus(SPI_FLAG_MODF))   //SPI模式错误中断标志 先读SPSR 再读写SPCR后清0
+  86   2          {
+  87   3          }
+  88   2        }
+  89   1      }
   90          
-  91          void timer0_int (void) interrupt 1
-  92          {
-  93   1        uint32_t counter = 0;
-  94   1        if(TIM0_GetITStatus())
-  95   1        {
-  96   2          counter = TIM0_GetCounter();
-  97   2        }
-  98   1        TIM0_ClearITPendingBit();
-  99   1      }
- 100          
- 101          
- 102          
- 103          /**
- 104            * @}
- 105            */
+  91          
+  92          void timer0_int (void) interrupt 1
+  93          {
+  94   1        uint32_t counter = 0;
+  95   1        if(TIM0_GetITStatus())
+  96   1        {
+  97   2          timer0Count++;
+  98   2          if(timer0Count > 100) timer0Count = 0;
+  99   2          if(timer0Count%2) GPIO_Write(GPIO_PORT_1, 0xff);
+ 100   2          else GPIO_Write(GPIO_PORT_1, 0);
+ 101   2          //counter = TIM0_GetCounter();
+ 102   2        }
+ 103   1        TIM0_ClearITPendingBit();
+ 104   1      }
+ 105          
  106          
- 107          /**
- 108            * @}
- 109            */
- 110          
- 111          /******************* (C) COPYRIGHT 2018 CMSemicon *****END OF FILE****/
+ 107          
+ 108          /**
+ 109            * @}
+ 110            */
+ 111          
+ 112          /**
+ 113            * @}
+ 114            */
+ 115          
+C51 COMPILER V9.56.0.0   CMS8S003X_ITC                                                     05/28/2018 18:06:57 PAGE 3   
+
+ 116          /******************* (C) COPYRIGHT 2018 CMSemicon *****END OF FILE****/
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    187    ----
-C51 COMPILER V9.56.0.0   CMS8S003X_ITC                                                     05/18/2018 18:04:00 PAGE 3   
-
+   CODE SIZE        =    250    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----       6
+   DATA SIZE        =      4       6
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----

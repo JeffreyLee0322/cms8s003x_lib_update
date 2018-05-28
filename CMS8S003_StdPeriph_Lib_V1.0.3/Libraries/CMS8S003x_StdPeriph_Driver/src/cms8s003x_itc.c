@@ -20,9 +20,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "cms8s003x_itc.h"
-
 #include "cms8s003x_spi.h"
 #include "cms8s003x_tim01.h"
+#include "cms8s003x_gpio.h"
 
 /** @addtogroup CMS8S003x_StdPeriph_Driver
   * @{
@@ -32,6 +32,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+uint32_t timer0Count = 0;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -93,7 +94,11 @@ void timer0_int (void) interrupt 1
 	uint32_t counter = 0;
 	if(TIM0_GetITStatus())
 	{
-		counter = TIM0_GetCounter();
+		timer0Count++;
+		if(timer0Count > 100) timer0Count = 0;
+		if(timer0Count%2) GPIO_Write(GPIO_PORT_1, 0xff);
+		else GPIO_Write(GPIO_PORT_1, 0);
+		//counter = TIM0_GetCounter();
 	}
 	TIM0_ClearITPendingBit();
 }

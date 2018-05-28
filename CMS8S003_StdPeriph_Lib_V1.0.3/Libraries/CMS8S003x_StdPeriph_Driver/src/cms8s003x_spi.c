@@ -20,7 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "cms8s003x_spi.h"
-#include <CMS\CMS51F003.H>
+#include <CMS\CMS8S003.H>
 #include "cms8s003x_conf.h"
 
 /** @addtogroup CMS8S003x_StdPeriph_Driver

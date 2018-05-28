@@ -5,6 +5,7 @@
 ".\Objects\cms8s003x_syscon.obj",
 ".\Objects\cms8s003x_tim01.obj",
 ".\Objects\cms8s003x_clk.obj",
+".\Objects\cms8s003x_tim2.obj",
 ".\Objects\main.obj" 
 TO ".\Objects\CMS8S003x" 
 

@@ -403,6 +403,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_clk.c</FilePath>
             </File>
+            <File>
+              <FileName>cms8s003x_tim2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   CMS8S003X_SPI                                                     05/18/2018 18:04:00 PAGE 1   
+C51 COMPILER V9.56.0.0   CMS8S003X_SPI                                                     05/28/2018 18:06:57 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE CMS8S003X_SPI
@@ -31,7 +31,7 @@ line level    source
   20          
   21          /* Includes ------------------------------------------------------------------*/
   22          #include "cms8s003x_spi.h"
-  23          #include <CMS\CMS51F003.H>
+  23          #include <CMS\CMS8S003.H>
   24          #include "cms8s003x_conf.h"
   25          
   26          /** @addtogroup CMS8S003x_StdPeriph_Driver
@@ -62,7 +62,7 @@ line level    source
   51          
   52          /**
   53            * @brief  Initializes the SPI according to the specified parameters.
-C51 COMPILER V9.56.0.0   CMS8S003X_SPI                                                     05/18/2018 18:04:00 PAGE 2   
+C51 COMPILER V9.56.0.0   CMS8S003X_SPI                                                     05/28/2018 18:06:57 PAGE 2   
 
   54            * @param  SPI_InitDef:
   55            *         SPI_BaudRatePrescaler : This parameter can be any of the
@@ -126,7 +126,7 @@ line level    source
  112   1        EIP2 |= Priority;
  113   1      
  114   1        /* Set the SPI IT mask Register */
-C51 COMPILER V9.56.0.0   CMS8S003X_SPI                                                     05/18/2018 18:04:00 PAGE 3   
+C51 COMPILER V9.56.0.0   CMS8S003X_SPI                                                     05/28/2018 18:06:57 PAGE 3   
 
  115   1        if (NewState != _DISABLE)
  116   1        {
@@ -190,7 +190,7 @@ line level    source
  174   1      }
  175          
  176          /**
-C51 COMPILER V9.56.0.0   CMS8S003X_SPI                                                     05/18/2018 18:04:00 PAGE 4   
+C51 COMPILER V9.56.0.0   CMS8S003X_SPI                                                     05/28/2018 18:06:57 PAGE 4   
 
  177            * @brief  Checks whether the specified SPI flag is set or not.
  178            * @param  SPIx : where x is 0 to select the specified SPI peripheral.
@@ -254,7 +254,7 @@ line level    source
  236            *         a read operation to SPI_DR register (SPI_ReceiveData()) followed by
  237            *         a read operation to SPI_SR register (SPI_GetITStatus()).
  238            *         - MODF (Mode Fault) interrupt pending bit is cleared by software sequence:
-C51 COMPILER V9.56.0.0   CMS8S003X_SPI                                                     05/18/2018 18:04:00 PAGE 5   
+C51 COMPILER V9.56.0.0   CMS8S003X_SPI                                                     05/28/2018 18:06:57 PAGE 5   
 
  239            *         a read/write operation to SPI_SR register (SPI_GetITStatus()) followed by
  240            *         a write operation to SPI_CR register (SPI_Cmd() to enable the SPI).

@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 1   
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/28/2018 18:06:57 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE CMS8S003X_GPIO
@@ -32,6 +32,8 @@ line level    source
   21          /* Includes ------------------------------------------------------------------*/
   22          #include "cms8s003x_gpio.h"
   23          #include <CMS\CMS51F003.H>
+*** WARNING C318 IN LINE 23 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_gpio.c: can't open file 'CMS\CMS
+             -51F003.H'
   24          #include "cms8s003x_conf.h"
   25          
   26          /** @addtogroup cms8s003x_StdPeriph_Driver
@@ -60,10 +62,10 @@ line level    source
   49   1      
   50   1      }
 *** WARNING C280 IN LINE 47 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_gpio.c: 'GPIOx': unreferenced lo
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/28/2018 18:06:57 PAGE 2   
+
              -cal variable
   51          
-C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 2   
-
   52          /**
   53            * @brief  Initializes the GPIOx according to the specified parameters.
   54            * @param  GPIOx : Select the GPIO peripheral number (x = A to I).
@@ -110,25 +112,36 @@ line level    source
   92   3                *(volatile unsigned char xdata *)(P1CFG +(uint8_t)GPIO_InitParam->Pin) = 0;
   93   3                //readTest = P15CFG;
   94   3            }
-  95   2            if(GPIO_InitParam->Direction == GPIO_INPUT)                 P1TRIS &= ~GPIO_InitParam->Pin;   //ÊäÈëÄ£Ê½
-  96   2            if(GPIO_InitParam->Direction == GPIO_OUTPUT)                P1TRIS |= GPIO_InitParam->Pin;    //Êä³öÄ£Ê½
-  97   2            if(GPIO_InitParam->Analog == GPIO_Digital_Sel)              P1ANS &= ~GPIO_InitParam->Pin;    //Êý×Ö¶Ë¿Ú   
-             - 
-  98   2            if(GPIO_InitParam->Analog == GPIO_Analog_Sel)               P1ANS |= GPIO_InitParam->Pin;      //Ä£Äâ¶Ë¿Ú
-  99   2            if(GPIO_InitParam->OType == GPIO_Pushpull_Sel)              P1OD &= ~GPIO_InitParam->Pin;     //Õý³£×´Ì¬(ÍÆ
-             -Íì)
- 100   2            if(GPIO_InitParam->OType == GPIO_Opendrain_Sel)             P1OD |= GPIO_InitParam->Pin;      //¿ªÂ©Ä£Ê½
- 101   2            if(GPIO_InitParam->Up == GPIO_Up_Disable)                   P1UP &= ~GPIO_InitParam->Pin;     //¹Ø±ÕÉÏÀ­
- 102   2            if(GPIO_InitParam->Up == GPIO_Up_Enable)                    P1UP |= GPIO_InitParam->Pin;      //¿ªÆôÉÏÀ­
- 103   2            if(GPIO_InitParam->Down == GPIO_Down_Disable)               P1DOWN &= ~GPIO_InitParam->Pin;     //¹Ø±ÕÏÂÀ­
- 104   2            if(GPIO_InitParam->Down == GPIO_Down_Enable)                P1DOWN |= GPIO_InitParam->Pin;      //¿ªÆôÏÂÀ­
- 105   2            if(GPIO_InitParam->Driver == GPIO_Driver_Strong)            P1DR &= ~GPIO_InitParam->Pin;     //ÈõµçÁ÷Çý¶
-             -¯
- 106   2            if(GPIO_InitParam->Driver == GPIO_Driver_Weak)              P1DR |= GPIO_InitParam->Pin;      //Ç¿µçÁ÷Çý¶¯
- 107   2            if(GPIO_InitParam->Slope == GPIO_Slope_Fast)                P1SR &= ~GPIO_InitParam->Pin;     //¿ìÐ±ÂÊ
-C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 3   
+  95   2            if(GPIO_InitParam->Direction == GPIO_INPUT)                 P1TRIS &= ~(1 << GPIO_InitParam->Pin);   //ÊäÈëÄ
+             -£Ê½
+  96   2            if(GPIO_InitParam->Direction == GPIO_OUTPUT)                P1TRIS |= (1 << GPIO_InitParam->Pin);    //Êä³öÄ£
+             -Ê½
+  97   2            if(GPIO_InitParam->Analog == GPIO_Digital_Sel)              P1ANS &= ~(1 << GPIO_InitParam->Pin);    //Êý×Ö
+             -¶Ë¿Ú    
+  98   2            if(GPIO_InitParam->Analog == GPIO_Analog_Sel)               P1ANS |= (1 << GPIO_InitParam->Pin);    //Ä£Äâ¶
+             -Ë¿Ú
+  99   2            if(GPIO_InitParam->OType == GPIO_Pushpull_Sel)              P1OD &= ~(1 << GPIO_InitParam->Pin);     //Õý³£
+             -×´Ì¬(ÍÆÍì)
+ 100   2            if(GPIO_InitParam->OType == GPIO_Opendrain_Sel)             P1OD |= (1 << GPIO_InitParam->Pin);      //¿ªÂ©
+             -Ä£Ê½
+ 101   2            if(GPIO_InitParam->Up == GPIO_Up_Disable)                   P1UP &= ~(1 << GPIO_InitParam->Pin);     //¹Ø±ÕÉÏ
+             -À­
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/28/2018 18:06:57 PAGE 3   
 
- 108   2            if(GPIO_InitParam->Slope == GPIO_Slope_Slow)                P1SR |= GPIO_InitParam->Pin;      //ÂýÐ±ÂÊ
+ 102   2            if(GPIO_InitParam->Up == GPIO_Up_Enable)                    P1UP |= (1 << GPIO_InitParam->Pin);      //¿ªÆôÉÏÀ
+             -­
+ 103   2            if(GPIO_InitParam->Down == GPIO_Down_Disable)               P1DOWN &= ~(1 << GPIO_InitParam->Pin);   //¹Ø±Õ
+             -ÏÂÀ­
+ 104   2            if(GPIO_InitParam->Down == GPIO_Down_Enable)                P1DOWN |= (1 << GPIO_InitParam->Pin);    //¿ªÆôÏ
+             -ÂÀ­
+ 105   2            if(GPIO_InitParam->Driver == GPIO_Driver_Strong)            P1DR &= ~(1 << GPIO_InitParam->Pin);     //Èõ
+             -µçÁ÷Çý¶¯
+ 106   2            if(GPIO_InitParam->Driver == GPIO_Driver_Weak)              P1DR |= (1 << GPIO_InitParam->Pin);      //Ç¿µç
+             -Á÷Çý¶¯
+ 107   2            if(GPIO_InitParam->Slope == GPIO_Slope_Fast)                P1SR &= ~(1 << GPIO_InitParam->Pin);     //¿ìÐ±
+             -ÂÊ
+ 108   2            if(GPIO_InitParam->Slope == GPIO_Slope_Slow)                P1SR |= (1 << GPIO_InitParam->Pin);      //ÂýÐ±Â
+             -Ê
  109   2        }
  110   1        else if(GPIOx == GPIO_PORT_2)
  111   1        {
@@ -177,6 +190,8 @@ line level    source
              -¯
  149   2            if(GPIO_InitParam->Driver == GPIO_Driver_Weak)              P3DR |= GPIO_InitParam->Pin;      //Ç¿µçÁ÷Çý¶¯
  150   2            if(GPIO_InitParam->Slope == GPIO_Slope_Fast)                P3SR &= ~GPIO_InitParam->Pin;     //¿ìÐ±ÂÊ
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/28/2018 18:06:57 PAGE 4   
+
  151   2            if(GPIO_InitParam->Slope == GPIO_Slope_Slow)                P3SR |= GPIO_InitParam->Pin;      //ÂýÐ±ÂÊ
  152   2        }
  153   1      }
@@ -190,8 +205,6 @@ line level    source
  161            * @retval None
  162            */
  163          void GPIO_Write(GPIO_Port_Typedef GPIOx, uint8_t GPIO_PortVal)
-C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 4   
-
  164          {
  165   1        if(GPIOx == GPIO_PORT_0)
  166   1        {
@@ -241,6 +254,8 @@ line level    source
  210   2         {
  211   3            P1  |= GPIO_Pin;
  212   3         }else
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/28/2018 18:06:57 PAGE 5   
+
  213   2         {
  214   3            P1  &= (uint8_t)(~GPIO_Pin);
  215   3         }
@@ -254,8 +269,6 @@ line level    source
  223   3            P2  &= (uint8_t)(~GPIO_Pin);
  224   3         }
  225   2        }else if(GPIOx == GPIO_PORT_3)
-C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 5   
-
  226   1        {
  227   2         if (GPIO_BitVal != _RESET)
  228   2         {
@@ -305,6 +318,8 @@ line level    source
  272            * @par    Required preconditions:
  273            *   The port must be configured in output mode.
  274            */
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/28/2018 18:06:57 PAGE 6   
+
  275          void GPIO_ResetBits(GPIO_Port_Typedef GPIOx, uint8_t GPIO_Pin)
  276          {
  277   1        if(GPIOx == GPIO_PORT_0)
@@ -318,8 +333,6 @@ line level    source
  285   2        P2 &= (uint8_t)(~GPIO_Pin);
  286   2        }else if(GPIOx == GPIO_PORT_3)
  287   1        {
-C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 6   
-
  288   2        P3 &= (uint8_t)(~GPIO_Pin);
  289   2        }else
  290   1        {
@@ -369,6 +382,8 @@ line level    source
  334   2        }else if(GPIOx == GPIO_PORT_1)
  335   1        {
  336   2        dataRead = (uint8_t)P1;
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/28/2018 18:06:57 PAGE 7   
+
  337   2        }else if(GPIOx == GPIO_PORT_2)
  338   1        {
  339   2        dataRead = (uint8_t)P2;
@@ -382,8 +397,6 @@ line level    source
  347   1        return dataRead;
  348   1      }
  349          
-C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 7   
-
  350          /**
  351            * @brief  Reads the specified GPIO output data port.
  352            * @note   The port must be configured in input mode.
@@ -433,6 +446,8 @@ line level    source
  396   2        }else if(GPIOx == GPIO_PORT_3)
  397   1        {
  398   2        dataRead = ((BitStatus)(P3 & (uint8_t)GPIO_Pin));
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/28/2018 18:06:57 PAGE 8   
+
  399   2        }else
  400   1        {
  401   2      
@@ -446,8 +461,6 @@ line level    source
  409            * @param  GPIO_Pin : Specifies the pin number
  410            * @retval BitStatus : GPIO output pin status.
  411            */
-C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/18/2018 18:04:00 PAGE 8   
-
  412          BitStatus GPIO_ReadOutputDataBit(GPIO_Port_Typedef GPIOx, GPIO_Pin_TypeDef GPIO_Pin)
  413          {
  414   1        uint8_t dataRead = 0;
@@ -485,7 +498,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1959    ----
+   CODE SIZE        =   2133    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
@@ -498,5 +511,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
 
+C51 COMPILER V9.56.0.0   CMS8S003X_GPIO                                                    05/28/2018 18:06:57 PAGE 9   
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

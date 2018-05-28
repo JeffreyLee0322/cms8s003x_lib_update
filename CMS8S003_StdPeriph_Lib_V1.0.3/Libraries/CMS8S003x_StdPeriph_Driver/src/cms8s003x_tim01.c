@@ -55,10 +55,13 @@ void TIM1_DeInit(void)
 
 void TIM0_Init(TIM01_Init_TypeDef *TIM0_InitDef)
 {
-	TMOD &= 0xf8; //GATE0/CT0/TOM0 clear 0-2 bit, set GATE0 bit.
+	TMOD &= 0xf0; //GATE0/CT0/TOM0 clear 0-3 bit
 
 	//CKCON clear 3 bit
 	CKCON &= 0xf7;
+	
+	//set GATE0 bit.
+	//TMOD |= 0x08;
 
 	//Set
 	TMOD |= (((uint8_t)((TIM0_InitDef->Timer_Function) << 2)) | ((uint8_t)(TIM0_InitDef->Timer_Mode)));
