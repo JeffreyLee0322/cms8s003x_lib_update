@@ -1,11 +1,11 @@
-C51 COMPILER V9.59.0.0   CMS8S003X_SYSCON                                                  05/29/2018 01:21:17 PAGE 1   
+C51 COMPILER V9.56.0.0   CMS8S003X_SYSCON                                                  05/29/2018 18:09:10 PAGE 1   
 
 
-C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CMS8S003X_SYSCON
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE CMS8S003X_SYSCON
 OBJECT MODULE PLACED IN .\Objects\cms8s003x_syscon.obj
-COMPILER INVOKED BY: D:\Install software\keil5\C51\BIN\C51.EXE ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_
-                    -syscon.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S003x_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\cms
-                    -8s003x_syscon.lst) TABS(2) OBJECT(.\Objects\cms8s003x_syscon.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c OMF2 O
+                    -PTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S003x_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\cms8s003x_syscon.l
+                    -st) TABS(2) OBJECT(.\Objects\cms8s003x_syscon.obj)
 
 line level    source
 
@@ -53,37 +53,21 @@ line level    source
   42   1        if(num < (GPIO_NUM_P07 + 1))
   43   1        {
   44   2            *(volatile unsigned char xdata *)(P0CFG +(uint8_t)num) = 0;
-*** ERROR C202 IN LINE 44 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c: 'P0CFG': undefined ident
-             -ifier
   45   2            *(volatile unsigned char xdata *)(P0CFG +(uint8_t)num) |= gpio_alt_func;
-*** ERROR C202 IN LINE 45 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c: 'P0CFG': undefined ident
-             -ifier
   46   2        }else if(num < (GPIO_NUM_P17 + 1))
   47   1        {
   48   2            *(volatile unsigned char xdata *)(P1CFG +(uint8_t)(num - 10)) = 0;
-*** ERROR C202 IN LINE 48 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c: 'P1CFG': undefined ident
-C51 COMPILER V9.59.0.0   CMS8S003X_SYSCON                                                  05/29/2018 01:21:17 PAGE 2   
-
-             -ifier
   49   2            *(volatile unsigned char xdata *)(P1CFG +(uint8_t)(num - 10)) |= gpio_alt_func;
-*** ERROR C202 IN LINE 49 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c: 'P1CFG': undefined ident
-             -ifier
   50   2        }else if(num < (GPIO_NUM_P27 + 1))
   51   1        {
   52   2            *(volatile unsigned char xdata *)(P2CFG +(uint8_t)(num-20)) = 0;
-*** ERROR C202 IN LINE 52 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c: 'P2CFG': undefined ident
-             -ifier
   53   2            *(volatile unsigned char xdata *)(P2CFG +(uint8_t)(num-20)) |= gpio_alt_func;
-*** ERROR C202 IN LINE 53 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c: 'P2CFG': undefined ident
-             -ifier
+C51 COMPILER V9.56.0.0   CMS8S003X_SYSCON                                                  05/29/2018 18:09:10 PAGE 2   
+
   54   2        }else if(num < (GPIO_NUM_P37 + 1))
   55   1        {
   56   2            *(volatile unsigned char xdata *)(P3CFG +(uint8_t)(num-30)) = 0;
-*** ERROR C202 IN LINE 56 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c: 'P3CFG': undefined ident
-             -ifier
   57   2            *(volatile unsigned char xdata *)(P3CFG +(uint8_t)(num-30)) |= gpio_alt_func;
-*** ERROR C202 IN LINE 57 OF ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c: 'P3CFG': undefined ident
-             -ifier
   58   2        }
   59   1      }
   60          
@@ -111,4 +95,20 @@ line level    source
   82          
   83          
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  8 ERROR(S)
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     74    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

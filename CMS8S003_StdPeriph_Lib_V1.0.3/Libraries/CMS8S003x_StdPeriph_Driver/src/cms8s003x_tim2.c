@@ -49,13 +49,13 @@ void TIM2_DeInit(void)
 void TIM2_TimeBaseInit(TIM2_Init_TypeDef* TIM2_InitDef)
 {
 	T2CON &= 0x00; 
-	T2CON = (uint8_t)(TIM2_InitDef->Clock_Source) | (uint8_t)((TIM2_InitDef->Clock_Prescaler) << 7) | (uint8_t)((TIM2_InitDef->Reload_Mode) >> 3);
+	T2CON |= (uint8_t)(TIM2_InitDef->Clock_Source) | (uint8_t)((TIM2_InitDef->Clock_Prescaler) << 7) | (uint8_t)((TIM2_InitDef->Reload_Mode) << 3);
 	
 	TH2 = ((TIM2_InitDef->Init_Value) >> 8)&0xFF;
 	TL2 = (TIM2_InitDef->Init_Value)&0xFF;
 }
 
-void TIM2_OCInit(TIM2_OC_Init_TypeDef TIM2_OCTpye)
+void TIM2_OCInit(TIM2_OC_Init_TypeDef* TIM2_OCTpye)
 {
 	/* Clear and Set TIM2 OC T2CON bit */
 	T2CON &= ~0x44;
@@ -64,8 +64,8 @@ void TIM2_OCInit(TIM2_OC_Init_TypeDef TIM2_OCTpye)
 	switch((uint8_t)(TIM2_OCTpye->OC_Channel))
 	{
 		case TIM2_OC_Channel_0:
-				RLDL = (uint8_t)(TIM2_OCTpye->OC_Init_Value);
-				RLDH = (uint8_t)(TIM2_OCTpye->OC_Init_Value >> 8);
+				RCRL = (uint8_t)(TIM2_OCTpye->OC_Init_Value);
+				RCRH = (uint8_t)(TIM2_OCTpye->OC_Init_Value >> 8);
 				break;
 		case TIM2_OC_Channel_1:
 				CCL1 = (uint8_t)(TIM2_OCTpye->OC_Init_Value);
@@ -83,7 +83,7 @@ void TIM2_OCInit(TIM2_OC_Init_TypeDef TIM2_OCTpye)
 	}
 }
 
-void TIM2_ICInit(TIM2_IC_Init_TypeDef TIM2_ICTpye)
+void TIM2_ICInit(TIM2_IC_Init_TypeDef* TIM2_ICTpye)
 {
 	/* Clear and Set T2CON IC bits */
 	T2CON &= ~0x40;
@@ -173,7 +173,7 @@ ITStatus TIM2_GetITStatus(TIM2_IT_FLAG_TypeDef TIM2_IT)
 
 void TIM2_ClearITPendingBit(TIM2_IT_FLAG_TypeDef TIM2_IT)
 {
-	T2IF &= (~TIM2_ITTIM2_IT);
+	T2IF &= (~TIM2_IT);
 }
 
 /**

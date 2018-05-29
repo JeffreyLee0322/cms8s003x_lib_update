@@ -20,7 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "cms8s003x_gpio.h"
-#include <CMS\CMS51F003.H>
+#include <CMS\CMS8S003.H>
 #include "cms8s003x_conf.h"
 
 /** @addtogroup cms8s003x_StdPeriph_Driver
@@ -152,6 +152,7 @@ void GPIO_Init(GPIO_Port_Typedef GPIOx, GPIO_Init_TypeDef* GPIO_InitParam)
  	}
 }
 
+#if 1
 /**
   * @brief  Writes data to the specified GPIO data port.
   * @note   The port must be configured in output mode.
@@ -199,43 +200,44 @@ void GPIO_WriteBit(GPIO_Port_Typedef GPIOx, GPIO_Pin_TypeDef GPIO_Pin, BitAction
   {
 	 if (GPIO_BitVal != _RESET)
 	 {
-	    P0  |= GPIO_Pin;
+	    P0  |= (1 << GPIO_Pin);
 	 }else
 	 {
-	    P0  &= (uint8_t)(~GPIO_Pin);
+	    P0  &= (uint8_t)(~(1 << GPIO_Pin));
 	 }
   }else if(GPIOx == GPIO_PORT_1)
   {
 	 if (GPIO_BitVal != _RESET)
 	 {
-	    P1  |= GPIO_Pin;
+	    P1  |= (1 << GPIO_Pin);
 	 }else
 	 {
-	    P1  &= (uint8_t)(~GPIO_Pin);
+	    P1  &= (uint8_t)(~(1 << GPIO_Pin));
 	 }
   }else if(GPIOx == GPIO_PORT_2)
   {
 	 if (GPIO_BitVal != _RESET)
 	 {
-	    P2  |= GPIO_Pin;
+	    P2  |= (1 << GPIO_Pin);
 	 }else
 	 {
-	    P2  &= (uint8_t)(~GPIO_Pin);
+	    P2  &= (uint8_t)(~(1 << GPIO_Pin));
 	 }
   }else if(GPIOx == GPIO_PORT_3)
   {
 	 if (GPIO_BitVal != _RESET)
 	 {
-	    P3  |= GPIO_Pin;
+	    P3  |= (1 << GPIO_Pin);
 	 }else
 	 {
-	    P3  &= (uint8_t)(~GPIO_Pin);
+	    P3  &= (uint8_t)(~(1 << GPIO_Pin));
 	 }
   }else
   {
 
   }
 }
+#endif
 
 /**
   * @brief  Writes high level to the specified GPIO pins.

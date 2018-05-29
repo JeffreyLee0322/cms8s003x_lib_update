@@ -22,6 +22,7 @@
 #include "cms8s003x_itc.h"
 #include "cms8s003x_spi.h"
 #include "cms8s003x_tim01.h"
+#include "cms8s003x_tim2.h"
 #include "cms8s003x_gpio.h"
 
 /** @addtogroup CMS8S003x_StdPeriph_Driver
@@ -33,6 +34,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 uint32_t timer0Count = 0;
+uint32_t timer1Count = 0;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -91,25 +93,26 @@ void SPI_ISR() interrupt 22
 
 void timer0_int (void) interrupt 1
 {
+	//这里不需要判断中断标志位，且中断标志位硬件自动清零
 	uint32_t counter = 0;
-	if(TIM0_GetITStatus())
-	{
-		timer0Count++;
-		if(timer0Count > 100) timer0Count = 0;
-		if(timer0Count%2) GPIO_Write(GPIO_PORT_1, 0xff);
-		else GPIO_Write(GPIO_PORT_1, 0);
-		//counter = TIM0_GetCounter();
-	}
-	TIM0_ClearITPendingBit();
+	timer0Count++;
+	if(timer0Count > 100) timer0Count = 0;
+	if(timer0Count%2) GPIO_WriteBit(GPIO_PORT_1, GPIO_PIN_5, 1);
+	else GPIO_WriteBit(GPIO_PORT_1, GPIO_PIN_5, 0);
+	//counter = TIM0_GetCounter();
 }
 
 void timer1_int (void) interrupt 3
 {
-
+	timer1Count++;
+	if(timer1Count > 100) timer1Count = 0;
+	if(timer1Count%2) GPIO_WriteBit(GPIO_PORT_1, GPIO_PIN_6, 1);
+	else GPIO_WriteBit(GPIO_PORT_1, GPIO_PIN_6, 0);
 }
 
 void timer2_int (void) interrupt 5
 {
+	P1_5 =~ P1_5;
 	if(TIM2_GetITStatus(TIM2_Overflow_Flag))
 	{
 			TIM2_ClearITPendingBit(TIM2_Overflow_Flag);

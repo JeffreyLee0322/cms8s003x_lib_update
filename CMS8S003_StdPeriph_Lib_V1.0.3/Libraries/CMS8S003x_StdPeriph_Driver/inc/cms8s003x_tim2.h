@@ -37,10 +37,10 @@
 
 typedef enum
 {
-	TIM2_Base_timer               = ((uint8_t)0x00),
-	Mode1_16Bit_Timer_Counter               = ((uint8_t)0x01),
-	Mode2_8Bit_AutoLoad_Timer_Counter       = ((uint8_t)0x02),
-	Mode3_Stop_Counter               	    	= ((uint8_t)0x03),
+	TIM2_Base_timer               					= ((uint8_t)0x00),
+	//Mode1_16Bit_Timer_Counter               = ((uint8_t)0x01),
+	//Mode2_8Bit_AutoLoad_Timer_Counter       = ((uint8_t)0x02),
+	//Mode3_Stop_Counter               	    	= ((uint8_t)0x03),
 }TIM2_Mode_TypeDef;
 
 typedef enum
@@ -213,7 +213,7 @@ typedef enum
 	TIM2_IC_Channel3_ICx 		=  	((uint8_t)(0x09 << 4)), /* Timer2 ICX channel 3 */
 }TIM2_IC_Select_TypeDef;
 
-typedef struct TIM2_OC_InitDef
+typedef struct TIM2_IC_InitDef
 {
 	TIM2_IC_Channel_TypeDef       IC_Channel;
 	TIM2_IC_INT_Edge_TypeDef 			IC_INT_Edge;
@@ -227,7 +227,7 @@ typedef struct TIM2_InitDef
 	TIM2_CLOCK_PRESCALER_TypeDef 		Clock_Prescaler;
 	TIM2_RELOAD_MODE_TypeDef        Reload_Mode;
 	uint16_t 												Init_Value;
-}TIM2_Init_TypeDef;
+}TIM2_Init_TypeDef; 
 
 /*
 typedef struct TIM2_ItDef
@@ -250,8 +250,8 @@ typedef struct TIM2_ItDef
 void TIM2_DeInit(void);
 void TIM2_TimeBaseInit(TIM2_Init_TypeDef* TIM1_InitDef);
 void TIM2_Cmd(FunctionalState NewState);
-void TIM2_OCInit(TIM2_OC_Init_TypeDef TIM2_OCTpye);
-void TIM2_ICInit(TIM2_IC_Init_TypeDef TIM2_ICTpye);
+void TIM2_OCInit(TIM2_OC_Init_TypeDef* TIM2_OCTpye);
+void TIM2_ICInit(TIM2_IC_Init_TypeDef* TIM2_ICTpye);
 void TIM2_ITConfig(TIM2_IT_Mask_TypeDef TIM2_Mask, TIM2_PRIORITY_TypeDef TIM2_Priority, FunctionalState NewState);
 FlagStatus TIM2_GetFlagStatus(TIM2_FLAG_TypeDef TIM2_FLAG);
 void TIM2_ClearFlag(TIM2_FLAG_TypeDef TIM2_FLAG);
