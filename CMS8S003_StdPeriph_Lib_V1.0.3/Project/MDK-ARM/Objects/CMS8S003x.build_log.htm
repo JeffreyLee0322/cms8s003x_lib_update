@@ -3,57 +3,70 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.20.0.39
-Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: po US, MS, LIC=WH730-BXSLQ-TPJZY-I08JY-WHZE5-ZR8TY
+IDE-Version: ¦ÌVision V5.25.3.0
+Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Jeffrey Lee, CMS, LIC=----
  
 Tool Versions:
-Toolchain:       PK51 Prof. Developers Kit  Version: 9.56.0.0
-Toolchain Path:  C:\Keil_v5\C51\BIN
-C Compiler:      C51.exe V9.56.0.0
-Assembler:       A51.exe V8.2.5.0
-Linker/Locator:  LX51.exe V4.66.66.0
+Toolchain:       PK51 Prof. Develpers Kit  Version: 9.59.0.0
+Toolchain Path:  D:\Install software\keil5\C51\BIN
+C Compiler:      C51.exe V9.59.0.0
+Assembler:       A51.exe V8.2.7.0
+Linker/Locator:  LX51.exe V4.66.93.0
 Library Manager: LIBX51.exe V4.30.1.0
-Hex Converter:   OHX51.exe V1.45.0.0
+Hex Converter:   OHX51.exe V1.47.0.0
 CPU DLL:         CMS51.DLL V1.00
-Dialog DLL:      DP51.DLL V2.63.0.0
+Dialog DLL:      DP51.DLL V2.66.0.0
 Target DLL:      CMS51.dll V1.00
-Dialog DLL:      TP51.DLL V2.59.0.0
+Dialog DLL:      TP51.DLL V2.60.0.0
  
 <h2>Project:</h2>
-E:\51 MCU\CMS8S003_StdPeriph_Lib_V1.0.3\Project\MDK-ARM\CMS8S003x.uvproj
-Project File Date:  05/22/2018
+F:\Project_dev\cms8s003_lib\cms8s003x_lib\CMS8S003_StdPeriph_Lib_V1.0.3\Project\MDK-ARM\CMS8S003x.uvproj
+Project File Date:  05/29/2018
 
 <h2>Output:</h2>
-Rebuild target 'CMSemicon'
-assembling STARTUP.A51...
+Build target 'CMSemicon'
 compiling cms8s003x_spi.c...
 ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_spi.c(243): warning C280: 'SPI_IT': unreferenced local variable
 compiling cms8s003x_itc.c...
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(113): error C202: 'TIM2_Overflow_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(115): error C202: 'TIM2_Overflow_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(118): error C202: 'TIM2_Reload_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(120): error C202: 'TIM2_Reload_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(123): error C202: 'TIM2_OOC3_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(125): error C202: 'TIM2_OOC3_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(128): error C202: 'TIM2_OOC2_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(130): error C202: 'TIM2_OOC2_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(133): error C202: 'TIM2_OOC1_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(135): error C202: 'TIM2_OOC1_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(138): error C202: 'TIM2_OOC0_Flag': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_itc.c(140): error C202: 'TIM2_OOC0_Flag': undefined identifier
 compiling cms8s003x_gpio.c...
 ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_gpio.c(23): warning C318: can't open file 'CMS\CMS51F003.H'
 ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_gpio.c(47): warning C280: 'GPIOx': unreferenced local variable
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_gpio.c(71): error C202: 'P0CFG': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_gpio.c(92): error C202: 'P1CFG': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_gpio.c(114): error C202: 'P2CFG': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_gpio.c(136): error C202: 'P3CFG': undefined identifier
 compiling cms8s003x_syscon.c...
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c(44): error C202: 'P0CFG': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c(45): error C202: 'P0CFG': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c(48): error C202: 'P1CFG': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c(49): error C202: 'P1CFG': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c(52): error C202: 'P2CFG': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c(53): error C202: 'P2CFG': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c(56): error C202: 'P3CFG': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_syscon.c(57): error C202: 'P3CFG': undefined identifier
 compiling cms8s003x_tim01.c...
 ..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim01.c(88): warning C280: 'TIM1_InitDef': unreferenced local variable
 compiling cms8s003x_clk.c...
 compiling cms8s003x_tim2.c...
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(58): warning C280: 'NewState': unreferenced local variable
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(63): warning C280: 'TIM2_Priority': unreferenced local variable
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(63): warning C280: 'NewState': unreferenced local variable
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(75): warning C173: missing return-expression
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(72): warning C280: 'TIM2_FLAG': unreferenced local variable
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(77): warning C280: 'TIM2_FLAG': unreferenced local variable
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(85): warning C173: missing return-expression
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(82): warning C280: 'TIM2_IT': unreferenced local variable
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(87): warning C280: 'TIM2_IT': unreferenced local variable
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(75): warning C290: missing return value
-..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(85): warning C290: missing return value
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\inc\cms8s003x_tim2.h(222): error C226: 'TIM2_OC_InitDef': duplicate struct/union/enum tag
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(67): error C202: 'RLDL': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(68): error C202: 'RLDH': undefined identifier
+..\..\Libraries\CMS8S003x_StdPeriph_Driver\src\cms8s003x_tim2.c(176): error C202: 'TIM2_ITTIM2_IT': undefined identifier
 compiling main.c...
-linking...
-Program Size: data=29.0 xdata=0 const=0 code=1025
-creating hex file from ".\Objects\CMS8S003x"...
-".\Objects\CMS8S003x" - 0 Error(s), 15 Warning(s).
+Target not created.
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

@@ -103,6 +103,53 @@ void timer0_int (void) interrupt 1
 	TIM0_ClearITPendingBit();
 }
 
+void timer1_int (void) interrupt 3
+{
+
+}
+
+void timer2_int (void) interrupt 5
+{
+	if(TIM2_GetITStatus(TIM2_Overflow_Flag))
+	{
+			TIM2_ClearITPendingBit(TIM2_Overflow_Flag);
+	}
+	
+	if(TIM2_GetITStatus(TIM2_Reload_Flag))
+	{
+			TIM2_ClearITPendingBit(TIM2_Reload_Flag);
+	}
+	
+	if(TIM2_GetITStatus(TIM2_OOC3_Flag))
+	{
+			TIM2_ClearITPendingBit(TIM2_OOC3_Flag);
+	}
+	
+	if(TIM2_GetITStatus(TIM2_OOC2_Flag))
+	{
+			TIM2_ClearITPendingBit(TIM2_OOC2_Flag);
+	}
+	
+	if(TIM2_GetITStatus(TIM2_OOC1_Flag))
+	{
+			TIM2_ClearITPendingBit(TIM2_OOC1_Flag);
+	}
+	
+	if(TIM2_GetITStatus(TIM2_OOC0_Flag))
+	{
+			TIM2_ClearITPendingBit(TIM2_OOC0_Flag);
+	}
+}
+
+void timer3_int (void) interrupt 15
+{
+
+}
+
+void timer4_int (void) interrupt 16
+{
+
+}
 
 
 /**

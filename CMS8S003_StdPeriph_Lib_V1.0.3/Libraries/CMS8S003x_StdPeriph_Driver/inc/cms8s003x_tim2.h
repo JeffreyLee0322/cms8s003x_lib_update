@@ -24,7 +24,6 @@
 #define __CMS8S003x_TIM2_H
 
 /* Includes ------------------------------------------------------------------*/
-//#include "cms8s003x.h"
 #include <CMS\CMS8S003.H>
 #include "cms8s003x_conf.h"
 
@@ -98,6 +97,130 @@ typedef enum
 	TIM2_OOC0_Flag  				=  	((uint8_t)0x01), /* TIM2 ooc0 IT flag */
 }TIM2_IT_FLAG_TypeDef;
 
+/**
+	* TIM2 Output Compare
+	*/
+typedef enum
+{
+	TIM2_OC_Channel_0 		=  	((uint8_t)0x00), /* Timer2 OC channel 0 */
+	TIM2_OC_Channel_1 		= 	((uint8_t)0x01), /* Timer2 OC channel 1 */
+	TIM2_OC_Channel_2			=  	((uint8_t)0x02), /* Timer2 OC channel 2 */
+	TIM2_OC_Channel_3			=  	((uint8_t)0x03), /* Timer2 OC channel 3 */
+}TIM2_OC_Channel_TypeDef;
+
+typedef enum
+{
+	TIM2_OC_Falling_Edge_INT 		=  	((uint8_t)0x00), /* Timer2 OC falling edge interrupt */
+	TIM2_OC_Rising_Edge_INT 		= 	((uint8_t)0x01), /* Timer2 OC rising edge interrupt */
+}TIM2_OC_INT_Edge_TypeDef;
+
+typedef enum
+{
+	TIM2_OC_Mode_0 		=  	((uint8_t)0x00), /* Timer2 OC Mode 0 interrupt */
+	TIM2_OC_Mode_1 		= 	((uint8_t)0x01), /* Timer2 OC Mode 1 interrupt */
+}TIM2_OC_Mode_TypeDef;
+
+typedef enum
+{
+	TIM2_OC_CML0_Disable 		=  	((uint8_t)(0x00 << 0)), /* Timer2 OC0 disable */
+	TIM2_OC_CML0_Edge 			= 	((uint8_t)(0x01 << 0)), /* Timer2 OC0 edge trigger */
+	TIM2_OC_CML0_Enable    	= 	((uint8_t)(0x02 << 0)), /* Timer2 OC0 enable */
+	TIM2_OC_CML0_RLDL    		= 	((uint8_t)(0x03 << 0)), /* Timer2 OC0 write RLDL trigger */
+	TIM2_OC_CML1_Disable 		=  	((uint8_t)(0x00 << 2)), /* Timer2 OC1 disable */
+	TIM2_OC_CML1_Edge 			= 	((uint8_t)(0x01 << 2)), /* Timer2 OC1 edge trigger */
+	TIM2_OC_CML1_Enable    	= 	((uint8_t)(0x02 << 2)), /* Timer2 OC1 enable */
+	TIM2_OC_CML1_CC1L    		= 	((uint8_t)(0x03 << 2)), /* Timer2 OC1 write CC1L trigger */
+	TIM2_OC_CML2_Disable 		=  	((uint8_t)(0x00 << 4)), /* Timer2 OC2 disable */
+	TIM2_OC_CML2_Edge 			= 	((uint8_t)(0x01 << 4)), /* Timer2 OC2 edge trigger */
+	TIM2_OC_CML2_Enable    	= 	((uint8_t)(0x02 << 4)), /* Timer2 OC2 enable */
+	TIM2_OC_CML2_CC2L    		= 	((uint8_t)(0x03 << 4)), /* Timer2 OC2 write CC2L trigger */
+	TIM2_OC_CML3_Disable 		=  	((uint8_t)(0x00 << 6)), /* Timer2 OC3 disable */
+	TIM2_OC_CML3_Edge 			= 	((uint8_t)(0x00 << 6)), /* Timer2 OC3 edge trigger */
+	TIM2_OC_CML3_Enable    	= 	((uint8_t)(0x00 << 6)), /* Timer2 OC3 enable */
+	TIM2_OC_CML3_CC3L    		= 	((uint8_t)(0x00 << 6)), /* Timer2 OC3 write CC3L trigger */
+}TIM2_OC_CMLx_TypeDef;
+
+typedef struct TIM2_OC_InitDef
+{
+	TIM2_OC_Channel_TypeDef       OC_Channel;
+	TIM2_OC_INT_Edge_TypeDef 			OC_INT_Edge;
+	TIM2_OC_Mode_TypeDef 					OC_Mode;
+	TIM2_OC_CMLx_TypeDef        	OC_CMLx;
+	uint16_t 											OC_Init_Value;
+}TIM2_OC_Init_TypeDef;
+
+/**
+	* TIM2 Iutput Capture
+	*/
+typedef enum
+{
+	TIM2_IC_Channel_0 		=  	((uint8_t)0x00), /* Timer2 IC channel 0 */
+	TIM2_IC_Channel_1 		= 	((uint8_t)0x01), /* Timer2 IC channel 1 */
+	TIM2_IC_Channel_2			=  	((uint8_t)0x02), /* Timer2 IC channel 2 */
+	TIM2_IC_Channel_3			=  	((uint8_t)0x03), /* Timer2 IC channel 3 */
+}TIM2_IC_Channel_TypeDef;
+
+typedef enum
+{
+	TIM2_IC_Falling_Edge_INT 		=  	((uint8_t)0x00), /* Timer2 IC falling edge capture RLD */
+	TIM2_IC_Rising_Edge_INT 		= 	((uint8_t)0x01), /* Timer2 IC rising edge capture RLD */
+}TIM2_IC_INT_Edge_TypeDef;
+
+typedef enum
+{
+	TIM2_IC_Channel0_IC0 		=  	((uint8_t)0x00), /* Timer2 IC0 channel 0 */
+	TIM2_IC_Channel0_IC1 		= 	((uint8_t)0x01), /* Timer2 IC1 channel 0 */
+	TIM2_IC_Channel0_IC2		=  	((uint8_t)0x02), /* Timer2 IC2 channel 0 */
+	TIM2_IC_Channel0_IC3		=  	((uint8_t)0x03), /* Timer2 IC3 channel 0 */
+	TIM2_IC_Channel0_IC4 		=  	((uint8_t)0x04), /* Timer2 IC4 channel 0 */
+	TIM2_IC_Channel0_IC5 		=  	((uint8_t)0x05), /* Timer2 IC5 channel 0 */
+	TIM2_IC_Channel0_IC6 		= 	((uint8_t)0x06), /* Timer2 IC6 channel 0 */
+	TIM2_IC_Channel0_IC7		=  	((uint8_t)0x07), /* Timer2 IC7 channel 0 */
+	TIM2_IC_Channel0_IC8		=  	((uint8_t)0x08), /* Timer2 IC8 channel 0 */
+	TIM2_IC_Channel0_ICx 		=  	((uint8_t)0x09), /* Timer2 ICX channel 0 */
+
+	TIM2_IC_Channel1_IC0 		=  	((uint8_t)(0x00 << 4)), /* Timer2 IC0 channel 1 */
+	TIM2_IC_Channel1_IC1 		= 	((uint8_t)(0x01 << 4)), /* Timer2 IC1 channel 1 */
+	TIM2_IC_Channel1_IC2		=  	((uint8_t)(0x02 << 4)), /* Timer2 IC2 channel 1 */
+	TIM2_IC_Channel1_IC3		=  	((uint8_t)(0x03 << 4)), /* Timer2 IC3 channel 1 */
+	TIM2_IC_Channel1_IC4 		=  	((uint8_t)(0x04 << 4)), /* Timer2 IC4 channel 1 */
+	TIM2_IC_Channel1_IC5 		=  	((uint8_t)(0x05 << 4)), /* Timer2 IC5 channel 1 */
+	TIM2_IC_Channel1_IC6 		= 	((uint8_t)(0x06 << 4)), /* Timer2 IC6 channel 1 */
+	TIM2_IC_Channel1_IC7		=  	((uint8_t)(0x07 << 4)), /* Timer2 IC7 channel 1 */
+	TIM2_IC_Channel1_IC8		=  	((uint8_t)(0x08 << 4)), /* Timer2 IC8 channel 1 */
+	TIM2_IC_Channel1_ICx 		=  	((uint8_t)(0x09 << 4)), /* Timer2 ICX channel 1 */
+
+	TIM2_IC_Channel2_IC0 		=  	((uint8_t)0x00), /* Timer2 IC0 channel 2 */
+	TIM2_IC_Channel2_IC1 		= 	((uint8_t)0x01), /* Timer2 IC1 channel 2 */
+	TIM2_IC_Channel2_IC2		=  	((uint8_t)0x02), /* Timer2 IC2 channel 2 */
+	TIM2_IC_Channel2_IC3		=  	((uint8_t)0x03), /* Timer2 IC3 channel 2 */
+	TIM2_IC_Channel2_IC4 		=  	((uint8_t)0x04), /* Timer2 IC4 channel 2*/
+	TIM2_IC_Channel2_IC5 		=  	((uint8_t)0x05), /* Timer2 IC5 channel 2 */
+	TIM2_IC_Channel2_IC6 		= 	((uint8_t)0x06), /* Timer2 IC6 channel 2 */
+	TIM2_IC_Channel2_IC7		=  	((uint8_t)0x07), /* Timer2 IC7 channel 2 */
+	TIM2_IC_Channel2_IC8		=  	((uint8_t)0x08), /* Timer2 IC8 channel 2 */
+	TIM2_IC_Channel2_ICx 		=  	((uint8_t)0x09), /* Timer2 ICX channel 2 */
+
+	TIM2_IC_Channel3_IC0 		=  	((uint8_t)(0x00 << 4)), /* Timer2 IC0 channel 3 */
+	TIM2_IC_Channel3_IC1 		= 	((uint8_t)(0x01 << 4)), /* Timer2 IC1 channel 3 */
+	TIM2_IC_Channel3_IC2		=  	((uint8_t)(0x02 << 4)), /* Timer2 IC2 channel 3 */
+	TIM2_IC_Channel3_IC3		=  	((uint8_t)(0x03 << 4)), /* Timer2 IC3 channel 3 */
+	TIM2_IC_Channel3_IC4 		=  	((uint8_t)(0x04 << 4)), /* Timer2 IC4 channel 3 */
+	TIM2_IC_Channel3_IC5 		=  	((uint8_t)(0x05 << 4)), /* Timer2 IC5 channel 3 */
+	TIM2_IC_Channel3_IC6 		= 	((uint8_t)(0x06 << 4)), /* Timer2 IC6 channel 3 */
+	TIM2_IC_Channel3_IC7		=  	((uint8_t)(0x07 << 4)), /* Timer2 IC7 channel 3 */
+	TIM2_IC_Channel3_IC8		=  	((uint8_t)(0x08 << 4)), /* Timer2 IC8 channel 3 */
+	TIM2_IC_Channel3_ICx 		=  	((uint8_t)(0x09 << 4)), /* Timer2 ICX channel 3 */
+}TIM2_IC_Select_TypeDef;
+
+typedef struct TIM2_OC_InitDef
+{
+	TIM2_IC_Channel_TypeDef       IC_Channel;
+	TIM2_IC_INT_Edge_TypeDef 			IC_INT_Edge;
+	TIM2_IC_Select_TypeDef        IC_Select;
+}TIM2_IC_Init_TypeDef;
+
+
 typedef struct TIM2_InitDef
 {
 	TIM2_CLOCK_SOURCE_TypeDef 			Clock_Source;
@@ -114,9 +237,6 @@ typedef struct TIM2_ItDef
 }TIM2_IT_TypeDef;*/
 
 
-#define TIMER2_START_BIT 	0x10
-#define TIME2_INTERRUPT_ENABLE_BIT  0x20
-
 
 /**
   * @}
@@ -130,8 +250,8 @@ typedef struct TIM2_ItDef
 void TIM2_DeInit(void);
 void TIM2_TimeBaseInit(TIM2_Init_TypeDef* TIM1_InitDef);
 void TIM2_Cmd(FunctionalState NewState);
-
-
+void TIM2_OCInit(TIM2_OC_Init_TypeDef TIM2_OCTpye);
+void TIM2_ICInit(TIM2_IC_Init_TypeDef TIM2_ICTpye);
 void TIM2_ITConfig(TIM2_IT_Mask_TypeDef TIM2_Mask, TIM2_PRIORITY_TypeDef TIM2_Priority, FunctionalState NewState);
 FlagStatus TIM2_GetFlagStatus(TIM2_FLAG_TypeDef TIM2_FLAG);
 void TIM2_ClearFlag(TIM2_FLAG_TypeDef TIM2_FLAG);

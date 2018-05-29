@@ -118,14 +118,31 @@ void test_timer01_init(void)
 void test_timer2_init(void)
 {
 	TIM2_Init_TypeDef TIM2_InitStructure;
+	TIM2_OC_Init_TypeDef TIM2_OC_InitStructure;
+	TIM2_IC_Init_TypeDef TIM2_IC_InitStructure;
+	
 	TIM2_InitStructure.Clock_Source 		= TIM2_SysClock_Prescaler;  	 //Timer2的时钟输入选择：系统时钟的分频
 	TIM2_InitStructure.Clock_Prescaler 	= TIM2_SysClock_Prescaler_12;  //Timer2时钟预分频选择
 	TIM2_InitStructure.Reload_Mode 			= TIM2_Overflow_Auto_Reload;   //Timer2加载模式选择
-	TIM2_InitStructure.Init_Value 			= 200;
+	TIM2_InitStructure.Init_Value 			= 200;                         //Timer2 数据寄存器初始值
 	
 	TIM2_DeInit();
 	TIM2_TimeBaseInit(&TIM2_InitStructure);
-	TIM2_ITConfig(TIM2_Overflow_IT_Enable | TIM2_Reload_IT_Enable | TIM2_All_IT_Enable, TIM2_LOW_Priority, _ENABLE);
+	
+	TIM2_OC_InitStructure.OC_Channel			= TIM2_OC_Channel_0;
+	TIM2_OC_InitStructure.OC_INT_Edge   	= TIM2_OC_Falling_Edge_INT;
+	TIM2_OC_InitStructure.OC_Mode       	= TIM2_OC_Mode_0;
+	TIM2_OC_InitStructure.OC_CMLx					= TIM2_OC_CML0_Enable;
+	TIM2_OC_InitStructure.OC_Init_Value		= 0x8000;
+	
+	TIM1_OCInit(&TIM2_OC_InitStructure);
+	
+	TIM2_IC_InitStructure.IC_Channel      = TIM2_IC_Channel_0;
+	TIM2_IC_InitStructure.IC_INT_Edge     = TIM2_IC_Falling_Edge_INT;
+	TIM2_IC_InitStructure.IC_Select      	= TIM2_IC_Channel0_IC0;
+	
+	TIM2_ICInit(&TIM2_IC_InitStructure);
+	//TIM2_ITConfig(TIM2_Overflow_IT_Enable | TIM2_Reload_IT_Enable | TIM2_All_IT_Enable, TIM2_LOW_Priority, _ENABLE);
 }
 #endif
 
