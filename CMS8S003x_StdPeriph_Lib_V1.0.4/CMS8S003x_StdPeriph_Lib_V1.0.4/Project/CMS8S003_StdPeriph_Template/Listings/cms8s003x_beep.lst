@@ -1,0 +1,136 @@
+C51 COMPILER V9.59.0.0   CMS8S003X_BEEP                                                    06/27/2018 00:53:08 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CMS8S003X_BEEP
+OBJECT MODULE PLACED IN .\Objects\cms8s003x_beep.obj
+COMPILER INVOKED BY: D:\Install software\keil5\C51\BIN\C51.EXE ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_b
+                    -eep.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S003_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\cms8s00
+                    -3x_beep.lst) TABS(2) OBJECT(.\Objects\cms8s003x_beep.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    cms8s003x_beep.c
+   4            * @author  LI WEI
+   5            * @version V1.0.3
+   6            * @date    04/24/2018
+   7            * @brief   This file provides all the BEEP firmware functions.
+   8            ******************************************************************************
+   9            * @copy
+  10            *
+  11            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  12            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  13            * TIME. AS A RESULT, CMSemicon SHALL NOT BE HELD LIABLE FOR ANY
+  14            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  15            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  16            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  17            *
+  18            * <h2><center>&copy; COPYRIGHT 2018 CMSemicon</center></h2>
+  19            */
+  20          
+  21          /* Includes ------------------------------------------------------------------*/
+  22          #include "cms8s003x_beep.h"
+  23          
+  24          /** @addtogroup CMS8S003x_StdPeriph_Driver
+  25            * @{
+  26            */
+  27          
+  28          /* Private typedef -----------------------------------------------------------*/
+  29          /* Private define ------------------------------------------------------------*/
+  30          /* Private macro -------------------------------------------------------------*/
+  31          /* Private variables ---------------------------------------------------------*/
+  32          /* Private function prototypes -----------------------------------------------*/
+  33          /* Private functions ---------------------------------------------------------*/
+  34          /* Public functions ----------------------------------------------------------*/
+  35          
+  36          /**
+  37            * @addtogroup BEEP_Public_Functions
+  38            * @{
+  39            */
+  40          
+  41          /**
+  42            * @brief  Deinitializes the BEEP peripheral registers to their default
+  43            *         reset values.
+  44            * @param  None
+  45            * @retval None
+  46            */
+  47          void BEEP_DeInit(void)
+  48          {
+  49   1        BUZCON &= 0x00;
+  50   1        BUZDIV &= 0x00;
+  51   1      }
+  52          
+  53          /**
+C51 COMPILER V9.59.0.0   CMS8S003X_BEEP                                                    06/27/2018 00:53:08 PAGE 2   
+
+  54            * @brief  Initializes the BEEP function according to the specified parameters.
+  55            * @param  BEEP_Prescaler1 Prescaler1 selection.
+  56            *         This parameter can be one of the values of @ref BEEP_Prescaler1_TypeDef.
+  57            * @param  BEEP_Prescaler2 Prescaler2 selection.
+  58            *         This parameter can be one of the values of 1-255.
+  59            * @note  The result BEEP frequency is: SystemClock/2*BEEP_Prescaler1/BEEP_Prescaler2
+  60            * @retval None
+  61            */
+  62          void BEEP_Init(BEEP_Init_TypeDef *BEEP_Init)
+  63          {
+  64   1        BUZCON &= 0x00;
+  65   1        BUZCON |= (uint8_t)BEEP_Init->BEEP_Prescaler1;
+  66   1        
+  67   1        BUZDIV &= 0x00;
+  68   1        BUZDIV |= (uint8_t)BEEP_Init->BEEP_Prescaler2;
+  69   1      }
+  70          
+  71          /**
+  72            * @brief  Enable or disable the BEEP function.
+  73            * @note   Initialisation of BEEP and LS RC calibration must be done before.
+  74            * @param  NewState Indicates the new state of the BEEP function.
+  75            * @retval None
+  76            */
+  77          void BEEP_Cmd(FunctionalState NewState)
+  78          {
+  79   1        
+  80   1        if (NewState != _DISABLE)
+  81   1        {
+  82   2          /* Enable the BEEP peripheral */
+  83   2          BUZCON |= BEEP_ENABLE;
+  84   2        }
+  85   1        else
+  86   1        {
+  87   2          /* Disable the BEEP peripheral */
+  88   2          BUZCON &= (uint8_t)(~BEEP_ENABLE);
+  89   2        }
+  90   1      }
+  91          
+  92          
+  93          
+  94          
+  95          /**
+  96            * @}
+  97            */
+  98          
+  99          /**
+ 100            * @}
+ 101            */
+ 102          
+ 103          /******************* (C) COPYRIGHT 2018 CMSemicon *****END OF FILE****/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     38    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+C51 COMPILER V9.59.0.0   CMS8S003X_BEEP                                                    06/27/2018 00:53:08 PAGE 3   
+
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

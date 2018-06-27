@@ -1,0 +1,22 @@
+".\Objects\STARTUP.obj",
+".\Objects\cms8s003x_adc.obj",
+".\Objects\cms8s003x_beep.obj",
+".\Objects\cms8s003x_clk.obj",
+".\Objects\cms8s003x_comp.obj",
+".\Objects\cms8s003x_epwm.obj",
+".\Objects\cms8s003x_flash.obj",
+".\Objects\cms8s003x_gpio.obj",
+".\Objects\cms8s003x_iic.obj",
+".\Objects\cms8s003x_itc.obj",
+".\Objects\cms8s003x_op.obj",
+".\Objects\cms8s003x_spi.obj",
+".\Objects\cms8s003x_syscon.obj",
+".\Objects\cms8s003x_tim01.obj",
+".\Objects\cms8s003x_tim2.obj",
+".\Objects\cms8s003x_tim34.obj",
+".\Objects\cms8s003x_uart.obj",
+".\Objects\cms8s003x_wdg.obj",
+".\Objects\main.obj" 
+TO ".\Objects\CMS8S003x" 
+
+PRINT(".\Listings\CMS8S003x.map") DISABLEWARNING (57) 

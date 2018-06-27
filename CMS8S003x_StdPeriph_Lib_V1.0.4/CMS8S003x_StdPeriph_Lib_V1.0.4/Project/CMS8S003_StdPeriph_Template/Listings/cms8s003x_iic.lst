@@ -1,0 +1,334 @@
+C51 COMPILER V9.59.0.0   CMS8S003X_IIC                                                     06/27/2018 00:53:09 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CMS8S003X_IIC
+OBJECT MODULE PLACED IN .\Objects\cms8s003x_iic.obj
+COMPILER INVOKED BY: D:\Install software\keil5\C51\BIN\C51.EXE ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_i
+                    -ic.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S003_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\cms8s003
+                    -x_iic.lst) TABS(2) OBJECT(.\Objects\cms8s003x_iic.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    cms8s003x_iic.c
+   4            * @author  LI WEI
+   5            * @version V1.0.3
+   6            * @date    04/24/2018
+   7            * @brief   This file provides all the IIC firmware functions.
+   8            ******************************************************************************
+   9            * @copy
+  10            *
+  11            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  12            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  13            * TIME. AS A RESULT, CMSemicon SHALL NOT BE HELD LIABLE FOR ANY
+  14            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  15            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  16            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  17            *
+  18            * <h2><center>&copy; COPYRIGHT 2018 CMSemicon</center></h2>
+  19            */
+  20          
+  21          /* Includes ------------------------------------------------------------------*/
+  22          #include "cms8s003x_iic.h"
+  23          
+  24          /** @addtogroup CMS8S003x_StdPeriph_Driver
+  25            * @{
+  26            */
+  27          
+  28          /* Private typedef -----------------------------------------------------------*/
+  29          /* Private define ------------------------------------------------------------*/
+  30          /* Private macro -------------------------------------------------------------*/
+  31          /* Private variables ---------------------------------------------------------*/
+  32          /* Private function prototypes -----------------------------------------------*/
+  33          /* Private functions ---------------------------------------------------------*/
+  34          /* Public functions ----------------------------------------------------------*/
+  35          
+  36          /**
+  37            * @addtogroup IIC_Public_Functions
+  38            * @{
+  39            */
+  40          sfr I2CMSR   = 0xF5;
+  41          sfr I2CSSR   = 0xF5;
+  42          /**
+  43            * @brief  Deinitializes the IIC peripheral registers to their default
+  44            *         reset values.
+  45            * @param  None
+  46            * @retval None
+  47            */
+  48          static void IIC_DeInit(void)
+  49          {
+  50   1        /* IIC Master register deinit */
+  51   1        I2CMTP &= 0x00;   //Master mode period register deinit
+  52   1        I2CMCR &= 0x00;   //Master mode control register deinit
+  53   1        I2CMSR &= 0x00;
+C51 COMPILER V9.59.0.0   CMS8S003X_IIC                                                     06/27/2018 00:53:09 PAGE 2   
+
+  54   1        I2CMSR |= 0x20;   //Master mode state register deinit
+  55   1        I2CMSA &= 0x00;   //Master mode slave address register deinit
+  56   1        I2CMBUF &= 0x00;  //Master mode send/receive register deinit
+  57   1      
+  58   1        /* IIC Slave register deinit */
+  59   1        I2CSADR &= 0x00;  //Slave mode own address register deinit
+  60   1        I2CSCR &= 0x00;   //Slave mode control register deinit
+  61   1        I2CSSR &= 0x00;   //Slave mode state register deinit
+  62   1        I2CSBUF &= 0x00;  //Slabe mode send/receive register deinit
+  63   1      }
+  64          
+  65          /**
+  66            * @brief  Initializes the IIC function according to the specified parameters.
+  67            * @note   The LS RC calibration must be performed before calling this function.
+  68            * @param  BEEP_Frequency Frequency selection.
+  69            *         This parameter can be one of the values of @ref BEEP_Frequency_TypeDef.
+  70            * @retval None
+  71            */
+  72          void IIC_Init(IIC_Init_TypeDef *IIC_Init)
+  73          {
+  74   1        IIC_DeInit();
+  75   1      
+  76   1        if((uint8_t)(IIC_Init->IIC_Mode) == IIC_Mode_Master)
+  77   1        {
+  78   2            /* Master mode period register Set */
+  79   2            I2CMTP = (uint8_t)IIC_Init->IIC_Frequency;
+  80   2      
+  81   2            /* Master  */
+  82   2            if((uint8_t)(IIC_Init->IIC_HighSpeed) == IIC_HighSpeed_Enable)
+  83   2            {
+  84   3              /* High Speed period timer enable */
+  85   3              I2CMTP |= 0x80;
+  86   3      
+  87   3              /* High Speed Mode enable */
+  88   3              I2CMCR = 0x10;
+  89   3            }
+  90   2            else if((uint8_t)(IIC_Init->IIC_HighSpeed) == IIC_HighSpeed_Disable)
+  91   2            {
+  92   3      
+  93   3            }
+  94   2            else
+  95   2            {
+  96   3              while(1);
+  97   3            }
+  98   2            
+  99   2            /* Slave Address Set */
+ 100   2            I2CMSA = 0;
+ 101   2            I2CMSA |= (((uint8_t)(IIC_Init->IIC_SlaveAddress)) | ((uint8_t)(IIC_Init->IIC_Direction)));
+ 102   2      
+ 103   2            //I2CMCR |= ((uint8_t)(IIC_Init->IIC_MasterMode & (~0x03)));
+ 104   2            /* IIC ACK Set */
+ 105   2            I2CMSA |= ((uint8_t)IIC_Init->IIC_ACK);
+ 106   2        }
+ 107   1        else
+ 108   1        {
+ 109   2            /* Slave Own address config */
+ 110   2            I2CSADR = (uint8_t)IIC_Init->IIC_OwnAddress;
+ 111   2            
+ 112   2            /* Slave Reset config */
+ 113   2            I2CSCR = (uint8_t)IIC_Init->IIC_Reset;
+ 114   2        }
+ 115   1      }
+C51 COMPILER V9.59.0.0   CMS8S003X_IIC                                                     06/27/2018 00:53:09 PAGE 3   
+
+ 116          
+ 117          /**
+ 118            * @brief  Enable or disable the IIC function.
+ 119            * @note   Initialisation of IIC and LS RC calibration must be done before.
+ 120            * @param  NewState Indicates the new state of the IIC function.
+ 121            * @retval None
+ 122            */
+ 123          void IIC_Cmd(FunctionalState NewState)
+ 124          {
+ 125   1      
+ 126   1        if (NewState != DISABLE)
+ 127   1        {
+ 128   2          /* Enable the BEEP peripheral */
+ 129   2          //BEEP->CSR2 |= BEEP_CSR2_BEEPEN;
+ 130   2        }
+ 131   1        else
+ 132   1        {
+ 133   2          /* Disable the BEEP peripheral */
+ 134   2          //BEEP->CSR2 &= (uint8_t)(~BEEP_CSR2_BEEPEN);
+ 135   2        }
+ 136   1      }
+ 137          
+ 138          void IIC_AckConfig(IIC_Ack_TypeDef Ack)
+ 139          {
+ 140   1        if (Ack != IIC_Ack_Disable)
+ 141   1        {
+ 142   2          /* Enable the IIC ACK */
+ 143   2          I2CMSA |= (uint8_t)Ack;
+ 144   2        }
+ 145   1        else
+ 146   1        {
+ 147   2          /* Disable the IIC ACK */
+ 148   2          I2CMSA &= (uint8_t)(~Ack);
+ 149   2        }
+ 150   1      }
+ 151          
+ 152          void IIC_MasterSendData(uint8_t Data)
+ 153          {
+ 154   1        I2CMBUF = Data;
+ 155   1      }
+ 156          
+ 157          uint8_t IIC_MasterReceiveData(void)
+ 158          {
+ 159   1        uint8_t receiveData = 0;
+ 160   1        receiveData = I2CMBUF;
+ 161   1        return receiveData;
+ 162   1      }
+ 163          
+ 164          void IIC_ITConfig(IIC_ITPriority_TypeDef ITPriority, FunctionalState NewState)
+ 165          {
+ 166   1        /* Set the IIC priority*/
+ 167   1        EIP2 |= ITPriority;
+ 168   1      
+ 169   1        /* Set the IIC IT mask Register */
+ 170   1        if (NewState != _DISABLE)
+ 171   1        {
+ 172   2          EIE2 |= IIC_IT_ENABLE_BIT; /* Enable the IIC IT */
+ 173   2        }
+ 174   1        else
+ 175   1        {
+ 176   2          EIE2 &= (uint8_t)(~IIC_IT_ENABLE_BIT); /* Disable the IIC IT */
+ 177   2        }
+C51 COMPILER V9.59.0.0   CMS8S003X_IIC                                                     06/27/2018 00:53:09 PAGE 4   
+
+ 178   1      }
+ 179          
+ 180          void IIC_Start(void)
+ 181          {
+ 182   1        /* Start & Run Set 1 */
+ 183   1        I2CMCR |= 0x03;
+ 184   1      }
+ 185          
+ 186          void IIC_Stop(void)
+ 187          {
+ 188   1        /* Stop Set 1 */
+ 189   1        I2CMCR |= 0x04;
+ 190   1      }
+ 191          
+ 192          uint8_t IIC_MasterGetSendBuf(void)
+ 193          {
+ 194   1        uint8_t sendData = 0;
+ 195   1        sendData = I2CMBUF;
+ 196   1        
+ 197   1        return sendData;
+ 198   1      }
+ 199          
+ 200          uint8_t IIC_MasterGetReceiveBuf(void)
+ 201          {
+ 202   1        uint8_t receiveData = 0;
+ 203   1        receiveData = I2CMBUF;
+ 204   1        
+ 205   1        return receiveData;
+ 206   1      }
+ 207          
+ 208          void IIC_SlaveCmd(FunctionalState NewState)
+ 209          {
+ 210   1        if (NewState != _DISABLE)
+ 211   1        {
+ 212   2          I2CSCR |= IIC_SLAVE_MODE_ENABLE; /* Enable the IIC Slave */
+ 213   2        }
+ 214   1        else
+ 215   1        {
+ 216   2          I2CSCR &= (uint8_t)(~IIC_SLAVE_MODE_ENABLE); /* Disable the IIC Slave */
+ 217   2        }
+ 218   1      }
+ 219          
+ 220          void IIC_SlaveReset(void)
+ 221          {
+ 222   1        I2CSCR |= IIC_SLAVE_RESET_ENABLE;
+ 223   1      }
+ 224          
+ 225          void IIC_SlaveSendData(uint8_t Data)
+ 226          {
+ 227   1        I2CSBUF = Data;
+ 228   1      }
+ 229          
+ 230          uint8_t IIC_SlaveReceiveData(void)
+ 231          {
+ 232   1        uint8_t ReceiveData = 0;
+ 233   1        
+ 234   1        ReceiveData = I2CSBUF;
+ 235   1        
+ 236   1        return I2CSBUF;
+ 237   1      }
+ 238          
+ 239          
+C51 COMPILER V9.59.0.0   CMS8S003X_IIC                                                     06/27/2018 00:53:09 PAGE 5   
+
+ 240          FlagStatus IIC_GetFlagStatus(IIC_Flag_TypeDef IIC_Flag)
+ 241          {
+ 242   1        FlagStatus status = _RESET;
+ 243   1      
+ 244   1        /* Check the status of the specified SPI flag */
+ 245   1        if ((I2CMSR & (uint8_t)IIC_Flag) != (uint8_t)_RESET)
+ 246   1        {
+ 247   2          status = _SET; /* SPI_FLAG is set */
+ 248   2        }
+ 249   1        else
+ 250   1        {
+ 251   2          status = _RESET; /* SPI_FLAG is reset*/
+ 252   2        }
+ 253   1        return status;
+ 254   1      }
+ 255          
+ 256          void IIC_ClearFlag(IIC_Flag_TypeDef IIC_FLAG)
+ 257          {
+ 258   1        I2CMSR &= (uint8_t)(~IIC_FLAG);
+ 259   1      }
+ 260          
+ 261          ITStatus IIC_GetITStatus(IIC_ITStatus_TypeDef IIC_ITPendingBit)
+ 262          {
+ 263   1        ITStatus status = _RESET;
+ 264   1      
+ 265   1        /* Check the status of the specified IIC flag */
+ 266   1        if ((EIF2 & (uint8_t)IIC_ITPendingBit) != (uint8_t)_RESET)
+ 267   1        {
+ 268   2          status = _SET; /* IIC IT Status is set */
+ 269   2        }
+ 270   1        else
+ 271   1        {
+ 272   2          status = _RESET; /* IIC IT Status is reset*/
+ 273   2        }
+ 274   1      
+ 275   1        /* Return the IIC IT status */
+ 276   1        return status;
+ 277   1      }
+ 278          
+ 279          void IIC_ClearITPendingBit(IIC_ITStatus_TypeDef IIC_ITPendingBit)
+ 280          {
+ 281   1        //NO Used!!!
+ 282   1      }
+*** WARNING C280 IN LINE 279 OF ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_iic.c: 'IIC_ITPendingBit': unref
+             -erenced local variable
+ 283          
+ 284          
+ 285          /**
+ 286            * @}
+ 287            */
+ 288          
+ 289          /**
+ 290            * @}
+ 291            */
+ 292          
+ 293          /******************* (C) COPYRIGHT 2018 CMSemicon *****END OF FILE****/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    232    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V9.59.0.0   CMS8S003X_IIC                                                     06/27/2018 00:53:09 PAGE 6   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

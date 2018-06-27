@@ -1,0 +1,338 @@
+C51 COMPILER V9.59.0.0   CMS8S003X_COMP                                                    06/27/2018 00:53:08 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CMS8S003X_COMP
+OBJECT MODULE PLACED IN .\Objects\cms8s003x_comp.obj
+COMPILER INVOKED BY: D:\Install software\keil5\C51\BIN\C51.EXE ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_c
+                    -omp.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S003_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\cms8s00
+                    -3x_comp.lst) TABS(2) OBJECT(.\Objects\cms8s003x_comp.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    cms8s003x_comp.c
+   4            * @author  LI WEI
+   5            * @version V1.0.3
+   6            * @date    04/24/2018
+   7            * @brief   This file provides all the COMP firmware functions.
+   8            ******************************************************************************
+   9            * @copy
+  10            *
+  11            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  12            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  13            * TIME. AS A RESULT, CMSemicon SHALL NOT BE HELD LIABLE FOR ANY
+  14            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  15            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  16            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  17            *
+  18            * <h2><center>&copy; COPYRIGHT 2018 CMSemicon</center></h2>
+  19            */
+  20          
+  21          /* Includes ------------------------------------------------------------------*/
+  22          #include "cms8s003x_comp.h"
+  23          
+  24          /** @addtogroup CMS8S003x_StdPeriph_Driver
+  25            * @{
+  26            */
+  27          
+  28          /* Private typedef -----------------------------------------------------------*/
+  29          /* Private define ------------------------------------------------------------*/
+  30          /* Private macro -------------------------------------------------------------*/
+  31          /* Private variables ---------------------------------------------------------*/
+  32          /* Private function prototypes -----------------------------------------------*/
+  33          /* Private functions ---------------------------------------------------------*/
+  34          
+  35          /**
+  36            * @addtogroup COMP_Public_Functions
+  37            * @{
+  38            */
+  39          
+  40          /**
+  41            * @brief  Deinitializes the COMPx peripheral registers to their default reset values.
+  42            * @param  None.
+  43            * @retval None.
+  44            */
+  45          void COMP_DeInit(COMP_TypeDef COMPn)
+  46          {
+  47   1        if(COMP0 == COMPn)
+  48   1        {
+  49   2            C0CON0 &= 0x00;
+  50   2            C0CON1 &= 0x00;
+  51   2            C0CON1 |= 0x20;
+  52   2            C0CON2 &= 0x00;
+  53   2            CNVRCON &= 0x00;
+C51 COMPILER V9.59.0.0   CMS8S003X_COMP                                                    06/27/2018 00:53:08 PAGE 2   
+
+  54   2            CNFBCON &= 0x00;
+  55   2            CNIE &= 0x00;
+  56   2            CNIF &= 0x00;
+  57   2            C0ADJE &= 0x00;
+  58   2        }
+  59   1        else if(COMP1 == COMPn)
+  60   1        {
+  61   2            C1CON0 &= 0x00;
+  62   2            C1CON1 &= 0x00;
+  63   2            C1CON1 |= 0x20;
+  64   2            C1CON2 &= 0x00;
+  65   2            CNVRCON &= 0x00;
+  66   2            CNFBCON &= 0x00;
+  67   2            CNIE &= 0x00;
+  68   2            CNIF &= 0x00;
+  69   2            C1ADJE &= 0x00;
+  70   2        }
+  71   1      }
+  72          
+  73          /**
+  74            * @brief  Initializes the comparator inverting input, output and speed.
+  75            * @note   This function configures only COMP2.
+  76            * @param  COMP_InvertingInput : selects the comparator inverting input and can
+  77            *         be any of the @ref COMP_InvertingInput_Typedef enumeration.
+  78            * @param  COMP_OutputSelect : selects the comparator output and can be any of
+  79            *         the @ref COMP_OutputSelect_Typedef enumeation.
+  80            * @param  COMP_Speed selects the comparator speed and can be any of the
+  81            *         @ref COMP_Speed_TypeDef enumeration.
+  82            * @retval None.
+  83            */
+  84          void COMP_Init(COMP_TypeDef COMPn,COMP_Init_TypeDef *COMP_Init)
+  85          {
+  86   1        COMP_DeInit(COMPn);
+  87   1        
+  88   1        if(COMP0 == COMPn)
+  89   1        {
+  90   2            C0CON0 = ((((uint8_t)COMP_Init->COMP_RegulationMode) << 6) | (((uint8_t)COMP_Init->COMP_NegativeGND) <<
+             - 5) | ((uint8_t)(COMP_Init->COMP_NegativeCH) << 2) | ((uint8_t)(COMP_Init->COMP_PositiveCH)));
+  91   2            C0CON1 = (((uint8_t)(COMP_Init->COMP_RegulationModeIn) << 6) | ((uint8_t)(COMP_Init->COMP_OffsetVoltage
+             -)));
+  92   2            C0CON2 = (((uint8_t)(COMP_Init->COMP_OutputPolarity) << 5) | ((uint8_t)(COMP_Init->COMP_OutputFilter) <
+             -< 4) | ((uint8_t)(COMP_Init->COMP_OutputFilterTime)));
+  93   2            CNVRCON = (((uint8_t)(COMP_Init->COMP_NegativeVref) << 4) | ((uint8_t)(COMP_Init->COMP_NegativeVDDK)));
+  94   2            CNFBCON = (((uint8_t)(COMP_Init->COMPn_PWMBrake.COMP0_PWMBrake) << 2) | ((uint8_t)(COMP_Init->COMPn_PWM
+             -BrakeEdge.COMP0_PWMBrakeEdge)));
+  95   2            C0ADJE = ((uint8_t)(COMP_Init->COMP_OffsetVoltageMode));
+  96   2        }
+  97   1        else if(COMP1 == COMPn)
+  98   1        {
+  99   2            C1CON0 = ((((uint8_t)COMP_Init->COMP_RegulationMode) << 6) | (((uint8_t)COMP_Init->COMP_NegativeGND) <<
+             - 5) | ((uint8_t)(COMP_Init->COMP_NegativeCH) << 2) | ((uint8_t)(COMP_Init->COMP_PositiveCH)));
+ 100   2            C1CON1 = (((uint8_t)(COMP_Init->COMP_RegulationModeIn) << 6) | ((uint8_t)(COMP_Init->COMP_OffsetVoltage
+             -)));
+ 101   2            C1CON2 = (((uint8_t)(COMP_Init->COMP_OutputPolarity) << 5) | ((uint8_t)(COMP_Init->COMP_OutputFilter) <
+             -< 4) | ((uint8_t)(COMP_Init->COMP_OutputFilterTime)));
+ 102   2            CNVRCON = (((uint8_t)(COMP_Init->COMP_NegativeVref) << 4) | ((uint8_t)(COMP_Init->COMP_NegativeVDDK)));
+ 103   2            CNFBCON = (((uint8_t)(COMP_Init->COMPn_PWMBrake.COMP1_PWMBrake) << 3) | ((uint8_t)(COMP_Init->COMPn_PWM
+             -BrakeEdge.COMP1_PWMBrakeEdge) << 1));
+ 104   2            C1ADJE = ((uint8_t)(COMP_Init->COMP_OffsetVoltageMode));
+ 105   2        }
+ 106   1      }
+ 107          
+C51 COMPILER V9.59.0.0   CMS8S003X_COMP                                                    06/27/2018 00:53:08 PAGE 3   
+
+ 108          void COMP_Cmd(COMP_TypeDef COMPn, FunctionalState NewState)
+ 109          {
+ 110   1        
+ 111   1        if (NewState != _DISABLE)
+ 112   1        {
+ 113   2            /* COMP Enable */
+ 114   2            if(COMP0 == COMPn)
+ 115   2            {
+ 116   3                C0CON0 |= (uint8_t)COMP_ENABLE_BIT;
+ 117   3            }
+ 118   2            else if(COMP1 == COMPn)
+ 119   2            {
+ 120   3                C0CON1 |= (uint8_t)COMP_ENABLE_BIT;
+ 121   3            }
+ 122   2        }
+ 123   1        else
+ 124   1        {
+ 125   2            /* COMP Disable */
+ 126   2            if(COMP0 == COMPn)
+ 127   2            {
+ 128   3                C0CON0 |= (uint8_t)(~COMP_ENABLE_BIT);
+ 129   3            }
+ 130   2            else if(COMP1 == COMPn)
+ 131   2            {
+ 132   3                C0CON1 |= (uint8_t)(~COMP_ENABLE_BIT);
+ 133   3            }
+ 134   2        }
+ 135   1      }
+ 136          
+ 137          uint8_t COMP_GetResult(COMP_TypeDef COMPn)
+ 138          {
+ 139   1        uint8_t COMP_Out = 0;
+ 140   1        if(COMP0 == COMPn)
+ 141   1        {
+ 142   2            COMP_Out = ((C0CON1 & 0x80) >> 7);
+ 143   2        }
+ 144   1        else if(COMP1 == COMPn)
+ 145   1        {
+ 146   2            COMP_Out = ((C1CON1 & 0x80) >> 7);
+ 147   2        }
+ 148   1        
+ 149   1        return COMP_Out;
+ 150   1      }
+ 151          
+ 152          /**
+ 153            * @brief  Enables or disables the interrupt generation when an event is detected.
+ 154            * @param  COMP_Selection : selects the comparator and can be any of the
+ 155            *         @ref COMP_Selection_TypeDef enum.
+ 156            * @param  NewState : new state of the COMPx peripheral.
+ 157            *         This parameter can be: ENABLE or DISABLE.
+ 158            * @retval None
+ 159            */
+ 160          void COMP_ITConfig(COMP_TypeDef COMPn, FunctionalState NewState)
+ 161          {
+ 162   1        if (NewState != _DISABLE)
+ 163   1        {
+ 164   2          /* Enable the OP */
+ 165   2          if(COMP0 == COMPn)
+ 166   2          {
+ 167   3              CNIE &= (uint8_t)(~COMP0_IT_DISABLE_BIT);
+ 168   3          }
+ 169   2          else if(COMP1 == COMPn)
+C51 COMPILER V9.59.0.0   CMS8S003X_COMP                                                    06/27/2018 00:53:08 PAGE 4   
+
+ 170   2          {
+ 171   3              CNIE &= (uint8_t)(~COMP1_IT_DISABLE_BIT);
+ 172   3          }
+ 173   2        }
+ 174   1        else
+ 175   1        {
+ 176   2          /* Disable the OP */
+ 177   2          if(COMP0 == COMPn)
+ 178   2          {
+ 179   3              CNIE |= (uint8_t)(COMP0_IT_DISABLE_BIT);
+ 180   3          }
+ 181   2          else if(COMP1 == COMPn)
+ 182   2          {
+ 183   3              CNIE |= (uint8_t)(COMP0_IT_DISABLE_BIT);
+ 184   3          }
+ 185   2        }
+ 186   1      }
+ 187          
+ 188          
+ 189          /**
+ 190            * @brief  Checks whether the comparator flag is set or not.
+ 191            * @param  COMP_Selection : selects the comparator and can be any of the
+ 192            *         @ref COMP_Selection_TypeDef enum.
+ 193            * @retval The new state of COMPx event flag (SET or RESET).
+ 194            */
+ 195          FlagStatus COMP_GetFlagStatus(COMP_TypeDef COMPn)
+ 196          {
+ 197   1        FlagStatus bitstatus = _RESET;
+ 198   1        
+ 199   1        if(COMP0 == COMPn)
+ 200   1        {
+ 201   2            if((CNIF & COMP0_IT_Flag) != _RESET)
+ 202   2            {
+ 203   3              bitstatus = _SET;
+ 204   3            }
+ 205   2        }
+ 206   1        else if(COMP1 == COMPn)
+ 207   1        {
+ 208   2            if((CNIF & COMP1_IT_Flag) != _RESET)
+ 209   2            {
+ 210   3              bitstatus = _SET;
+ 211   3            }
+ 212   2        }
+ 213   1      
+ 214   1        /* return the comparator event flag status */
+ 215   1        return (FlagStatus)(bitstatus);
+ 216   1      }
+ 217          
+ 218          /**
+ 219            * @brief  Clears the comparator’s pending flag.
+ 220            * @param  COMP_Selection : selects the comparator and can be any of the
+ 221            *         @ref COMP_Selection_TypeDef enum.
+ 222            * @retval None.
+ 223            */
+ 224          void COMP_ClearFlag(COMP_TypeDef COMPn)
+ 225          {
+ 226   1        if(COMP0 == COMPn)
+ 227   1        {
+ 228   2            CNIF &= COMP0_IT_Flag;
+ 229   2        }
+ 230   1        else if(COMP1 == COMPn)
+ 231   1        {
+C51 COMPILER V9.59.0.0   CMS8S003X_COMP                                                    06/27/2018 00:53:08 PAGE 5   
+
+ 232   2            CNIF &= COMP1_IT_Flag;
+ 233   2        }
+ 234   1      }
+ 235          
+ 236          /**
+ 237            * @brief  Checks whether the comparator interrupt has occurred or not.
+ 238            * @param  COMP_Selection : selects the comparator and can be any of the
+ 239            *         @ref COMP_Selection_TypeDef enum.
+ 240            * @retval ITStatus : The state of the COMPx event flag (SET or RESET).
+ 241            */
+ 242          ITStatus COMP_GetITStatus(COMP_TypeDef COMPn)
+ 243          {
+ 244   1        ITStatus bitstatus = _RESET;
+ 245   1        
+ 246   1        if(COMP0 == COMPn)
+ 247   1        {
+ 248   2            if((CNIF & COMP0_IT_Flag) != _RESET)
+ 249   2            {
+ 250   3              bitstatus = _SET;
+ 251   3            }
+ 252   2        }
+ 253   1        else if(COMP1 == COMPn)
+ 254   1        {
+ 255   2            if((CNIF & COMP1_IT_Flag) != _RESET)
+ 256   2            {
+ 257   3              bitstatus = _SET;
+ 258   3            }
+ 259   2        }
+ 260   1      
+ 261   1        /* Return the COMP interrupt status */
+ 262   1        return (ITStatus) bitstatus;
+ 263   1      }
+ 264          
+ 265          /**
+ 266            * @brief  Clears the interrupt pending bits of the comparator.
+ 267            * @param  COMP_Selection : selects the comparator and can be any of the
+ 268            *         @ref COMP_Selection_TypeDef enum.
+ 269            * @retval None
+ 270            */
+ 271          void COMP_ClearITPendingBit(COMP_TypeDef COMPn)
+ 272          {
+ 273   1        if(COMP0 == COMPn)
+ 274   1        {
+ 275   2            CNIF &= COMP0_IT_Flag;
+ 276   2        }
+ 277   1        else if(COMP1 == COMPn)
+ 278   1        {
+ 279   2            CNIF &= COMP1_IT_Flag;
+ 280   2        }
+ 281   1      }
+ 282          
+ 283          /**
+ 284            * @}
+ 285            */
+ 286          
+ 287          /**
+ 288            * @}
+ 289            */
+ 290          
+ 291          /******************* (C) COPYRIGHT 2018 CMSemicon *****END OF FILE****/
+
+
+C51 COMPILER V9.59.0.0   CMS8S003X_COMP                                                    06/27/2018 00:53:08 PAGE 6   
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    751    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

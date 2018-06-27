@@ -1,0 +1,295 @@
+C51 COMPILER V9.59.0.0   CMS8S003X_SPI                                                     06/27/2018 00:53:09 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CMS8S003X_SPI
+OBJECT MODULE PLACED IN .\Objects\cms8s003x_spi.obj
+COMPILER INVOKED BY: D:\Install software\keil5\C51\BIN\C51.EXE ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_s
+                    -pi.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S003_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\cms8s003
+                    -x_spi.lst) TABS(2) OBJECT(.\Objects\cms8s003x_spi.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    cms8s003x_spi.c
+   4            * @author  LI WEI
+   5            * @version V1.0.0
+   6            * @date    04/26/2018
+   7            * @brief   This file provides all the SPI firmware functions.
+   8            ******************************************************************************
+   9            * @copy
+  10            *
+  11            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  12            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  13            * TIME. AS A RESULT, CMSemicon SHALL NOT BE HELD LIABLE FOR ANY
+  14            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  15            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  16            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  17            *
+  18            * <h2><center>&copy; COPYRIGHT 2018 CMSemicon</center></h2>
+  19            */
+  20          
+  21          /* Includes ------------------------------------------------------------------*/
+  22          #include "cms8s003x_spi.h"
+  23          #include "cms8s003x_conf.h"
+  24          
+  25          /** @addtogroup CMS8S003x_StdPeriph_Driver
+  26            * @{
+  27            */
+  28          
+  29          /* Private typedef -----------------------------------------------------------*/
+  30          /* Private define ------------------------------------------------------------*/
+  31          /* Private macro -------------------------------------------------------------*/
+  32          /* Private variables ---------------------------------------------------------*/
+  33          /* Private function prototypes -----------------------------------------------*/
+  34          /* Private functions ---------------------------------------------------------*/
+  35          
+  36          /** @addtogroup SPI_Public_Functions
+  37            * @{
+  38            */
+  39          
+  40          /**
+  41            * @brief  Deinitializes the SPI peripheral registers to their default reset values.
+  42            * @param  None
+  43            * @retval None
+  44            */
+  45          void SPI_DeInit(void)
+  46          {
+  47   1        SPI0_SPCR    = SPI_SPCR_RESET_VALUE;
+  48   1        SPI0_SPCR    = SPI_SSCR_RESET_VALUE;
+  49   1      }
+  50          
+  51          /**
+  52            * @brief  Initializes the SPI according to the specified parameters.
+  53            * @param  SPI_InitDef:
+C51 COMPILER V9.59.0.0   CMS8S003X_SPI                                                     06/27/2018 00:53:09 PAGE 2   
+
+  54            *         SPI_BaudRatePrescaler : This parameter can be any of the
+  55            *         @ref SPI_BaudRatePrescaler_TypeDef enumeration.
+  56            *         SPI_Mode : This parameter can be any of the  @ref SPI_Mode_TypeDef
+  57            *         enumeration.
+  58            *         SPI_CPOL : This parameter can be any of the @ref SPI_CPOL_TypeDef
+  59            *         enumeration.
+  60            *         SPI_CPHA : This parameter can be any of the @ref SPI_CPHA_TypeDef
+  61            *         enumeration.
+  62            * @retval None
+  63            */
+  64          void SPI_Init(SPI_Init_TypeDef* SPI_InitDef)
+  65          {
+  66   1        /* Check structure elements */
+  67   1        assert_param(IS_SPI_BAUDRATE_PRESCALER(SPI_InitDef->SPI_Frequency));
+  68   1        assert_param(IS_SPI_MODE(SPI_InitDef->SPI_Mode));
+  69   1        assert_param(IS_SPI_POLARITY(SPI_InitDef->SPI_CPOL));
+  70   1        assert_param(IS_SPI_PHASE(SPI_InitDef->SPI_CPHA));
+  71   1      
+  72   1        /* Frame Format, BaudRate, Clock Polarity ,Mode, CPOL and CPHA configuration */
+  73   1        SPI0_SPCR = (SPI_InitDef->SPI_Mode) | (SPI_InitDef->SPI_CPOL) | (SPI_InitDef->SPI_CPHA) | (SPI_InitDef->S
+             -PI_Frequency);
+  74   1      }
+  75          
+  76          /**
+  77            * @brief  Enables or disables the SPI peripheral.
+  78            * @param  NewState New state of the SPI peripheral.
+  79            *         This parameter can be: ENABLE or DISABLE
+  80            * @retval None
+  81            */
+  82          void SPI_Cmd(FunctionalState NewState)
+  83          {
+  84   1        /* Check function parameters */
+  85   1        assert_param(IS_FUNCTIONAL_STATE(NewState));
+  86   1      
+  87   1        if (NewState != _DISABLE)
+  88   1        {
+  89   2          SPI0_SPCR |= SPEN_ENABLE_BIT; /* Enable the SPI peripheral*/
+  90   2        }
+  91   1        else
+  92   1        {
+  93   2          SPI0_SPCR &= (uint8_t)(~SPEN_ENABLE_BIT); /* Disable the SPI peripheral*/
+  94   2        }
+  95   1      }
+  96          
+  97          /**
+  98            * @brief  Enables or disables the specified interrupts.
+  99            * @param  Priority Specifies the SPI interrupts priority.
+ 100            * @param  NewState: The new state of the specified SPI interrupts.
+ 101            *         This parameter can be: ENABLE or DISABLE.
+ 102            * @retval None
+ 103            */
+ 104          void SPI_ITConfig(InterruptPriority Priority, FunctionalState NewState)
+ 105          {
+ 106   1        /* Check function parameters */
+ 107   1        assert_param(IS_SPI_PRIORITY(Priority));
+ 108   1        assert_param(IS_FUNCTIONAL_STATE(NewState));
+ 109   1        
+ 110   1        /* Set the SPI priority*/
+ 111   1        EIP2 |= Priority;
+ 112   1      
+ 113   1        /* Set the SPI IT mask Register */
+ 114   1        if (NewState != _DISABLE)
+C51 COMPILER V9.59.0.0   CMS8S003X_SPI                                                     06/27/2018 00:53:09 PAGE 3   
+
+ 115   1        {
+ 116   2          EIE2 |= SPIIE_ENABLE_BIT; /* Enable the SPI IT */
+ 117   2        }
+ 118   1        else
+ 119   1        {
+ 120   2          EIE2 &= (uint8_t)(~SPIIE_ENABLE_BIT); /* Disable the SPI IT */
+ 121   2        }
+ 122   1      }
+ 123          
+ 124          
+ 125          /**
+ 126            * @brief  Transmits a Data through the SPI peripheral.
+ 127            * @param  SPIx : where x is 0 to select the specified SPI peripheral.
+ 128            * @param  Data : Byte to be transmitted.
+ 129            * @retval None
+ 130            */
+ 131          void SPI_SendData(uint8_t Data)
+ 132          {
+ 133   1        //SPIx->SPDR = Data; /* Write in the SPDR register the data to be sent*/
+ 134   1        SPI0_SPDR = Data; /* Write in the SPDR register the data to be sent*/
+ 135   1      }
+ 136          
+ 137          /**
+ 138            * @brief  Returns the most recent received data by the SPI peripheral.
+ 139            * @param  SPIx : where x is 0 to select the specified SPI peripheral.
+ 140            * @retval The value of the received data.
+ 141            */
+ 142          uint8_t SPI_ReceiveData(void)
+ 143          {
+ 144   1        return ((uint8_t)SPI0_SPDR); /* Return the data in the SPDR register*/
+ 145   1      }
+ 146          
+ 147          
+ 148          /**
+ 149            * @brief  Configures internally by software the NSS pin.
+ 150            * @param  SPIx : where x is 0 to select the specified SPI peripheral.
+ 151            * @param  Ss0x : where x is 0 to 7.
+ 152            * @param  NewState Indicates the new state of the SPI Software slave management.
+ 153            *         This parameter can be: ENABLE or DISABLE.
+ 154            * @retval None
+ 155            */
+ 156          void SPI_NSSInternalSoftwareCmd(SPI_SSCR_TypeDef Ss0x, FunctionalState NewState)
+ 157          {
+ 158   1        /* Check function parameters */
+ 159   1        assert_param(IS_FUNCTIONAL_STATE(NewState));
+ 160   1        
+ 161   1        /* Set SSCR Register */
+ 162   1        SPI0_SSCR = Ss0x;
+ 163   1         
+ 164   1        ///* Set SPI Master Mode SSO Output Control bit*/
+ 165   1        if (NewState != _DISABLE)
+ 166   1        {
+ 167   2          SPI0_SPSR |= SPSR_SSCEN_ENABLE_BIT;    /* Set NSS pin internally by software*/
+ 168   2        }
+ 169   1        else
+ 170   1        {
+ 171   2          SPI0_SPSR &= (uint8_t)(~SPSR_SSCEN_ENABLE_BIT); /* Reset NSS pin internally by software*/
+ 172   2        }
+ 173   1      }
+ 174          
+ 175          /**
+ 176            * @brief  Checks whether the specified SPI flag is set or not.
+C51 COMPILER V9.59.0.0   CMS8S003X_SPI                                                     06/27/2018 00:53:09 PAGE 4   
+
+ 177            * @param  SPIx : where x is 0 to select the specified SPI peripheral.
+ 178            * @param  SPI_FLAG : Specifies the flag to check.
+ 179            * @retval FlagStatus : Indicates the state of SPI_FLAG.
+ 180            *         This parameter can be any of the @ref PeripheralInterruptFlags enumeration.
+ 181            */
+ 182          FlagStatus SPI_GetFlagStatus(PeripheralInterruptFlags SPI_FLAG)
+ 183          {
+ 184   1        FlagStatus status = _RESET;
+ 185   1        /* Check parameters */
+ 186   1        assert_param(IS_SPI_FLAG(SPI_FLAG));
+ 187   1      
+ 188   1        /* Check the status of the specified SPI flag */
+ 189   1        if ((EIF2 & (uint8_t)SPI_FLAG) != (uint8_t)_RESET)
+ 190   1        {
+ 191   2          status = _SET; /* SPI_FLAG is set */
+ 192   2        }
+ 193   1        else
+ 194   1        {
+ 195   2          status = _RESET; /* SPI_FLAG is reset*/
+ 196   2        }
+ 197   1        return status;
+ 198   1      }
+ 199          
+ 200          
+ 201          /**
+ 202            * @brief  Checks whether the specified interrupt has occurred or not.
+ 203            * @param  SPIx : where x is 0 to select the specified SPI peripheral.
+ 204            * @param  SPI_FLAG: Specifies the SPI interrupt pending bit to check.
+ 205            *         This parameter can be one of the following values:
+ 206            *           SPI_FLAG_SPISIF
+ 207                  SPI_FLAG_WCOL
+ 208                  SPI_FLAG_MODF
+ 209            * @retval ITStatus : Indicates the state of the SPI_FLAG.
+ 210            *         This parameter can be any of the @ref ITStatus enumeration.
+ 211            */
+ 212          ITStatus SPI_GetITStatus(SPI_IT_TypeDef SPI_FLAG)
+ 213          {
+ 214   1        ITStatus status = _RESET;
+ 215   1        /* Check parameters */
+ 216   1        assert_param(IS_SPI_FLAG(SPI_FLAG));
+ 217   1        
+ 218   1        /* Check the status of the specified SPI flag */
+ 219   1        if ((SPI0_SPSR & (uint8_t)SPI_FLAG) != (uint8_t)_RESET)
+ 220   1        {
+ 221   2          status = _SET; /* SPI_FLAG is set */
+ 222   2        }
+ 223   1        else
+ 224   1        {
+ 225   2          status = _RESET; /* SPI_FLAG is reset*/
+ 226   2        }
+ 227   1      
+ 228   1        /* Return the SPI_FLAG status */
+ 229   1        return status;
+ 230   1      }
+ 231          
+ 232          /**
+ 233            * @brief  Clears the interrupt pending bits.
+ 234            * @note   - OVR (OverRun Error) interrupt pending bit is cleared by software sequence:
+ 235            *         a read operation to SPI_DR register (SPI_ReceiveData()) followed by
+ 236            *         a read operation to SPI_SR register (SPI_GetITStatus()).
+ 237            *         - MODF (Mode Fault) interrupt pending bit is cleared by software sequence:
+ 238            *         a read/write operation to SPI_SR register (SPI_GetITStatus()) followed by
+C51 COMPILER V9.59.0.0   CMS8S003X_SPI                                                     06/27/2018 00:53:09 PAGE 5   
+
+ 239            *         a write operation to SPI_CR register (SPI_Cmd() to enable the SPI).
+ 240            * @retval None
+ 241            */
+ 242          void SPI_ClearITPendingBit(SPI_IT_TypeDef SPI_IT)
+ 243          {
+ 244   1        //NOT USE!!!
+ 245   1      }
+*** WARNING C280 IN LINE 242 OF ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_spi.c: 'SPI_IT': unreferenced lo
+             -cal variable
+ 246          
+ 247          /**
+ 248            * @}
+ 249            */
+ 250          
+ 251          /**
+ 252            * @}
+ 253            */
+ 254          
+ 255          /******************* (C) COPYRIGHT 2018 CMSemicon *****END OF FILE****/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    114    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

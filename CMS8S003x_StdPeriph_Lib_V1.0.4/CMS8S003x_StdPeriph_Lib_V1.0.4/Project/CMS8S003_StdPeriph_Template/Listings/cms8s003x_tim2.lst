@@ -1,0 +1,253 @@
+C51 COMPILER V9.59.0.0   CMS8S003X_TIM2                                                    06/27/2018 00:53:10 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CMS8S003X_TIM2
+OBJECT MODULE PLACED IN .\Objects\cms8s003x_tim2.obj
+COMPILER INVOKED BY: D:\Install software\keil5\C51\BIN\C51.EXE ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_t
+                    -im2.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S003_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\cms8s00
+                    -3x_tim2.lst) TABS(2) OBJECT(.\Objects\cms8s003x_tim2.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    cms8s003x_tim2.c
+   4            * @author  LI WEI
+   5            * @version V1.0.3
+   6            * @date    04/24/2018
+   7            * @brief   This file provides all the TIM1 firmware functions.
+   8            ******************************************************************************
+   9            * @copy
+  10            *
+  11            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  12            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  13            * TIME. AS A RESULT, CMSemicon SHALL NOT BE HELD LIABLE FOR ANY
+  14            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  15            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  16            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  17            *
+  18            * <h2><center>&copy; COPYRIGHT 2018 CMSemicon</center></h2>
+  19            */
+  20          
+  21          /* Includes ------------------------------------------------------------------*/
+  22          #include "cms8s003x_tim2.h"
+  23          
+  24          /** @addtogroup CMS8S003x_StdPeriph_Driver
+  25            * @{
+  26            */
+  27          
+  28          /* Private typedef -----------------------------------------------------------*/
+  29          /* Private define ------------------------------------------------------------*/
+  30          /* Private macro -------------------------------------------------------------*/
+  31          /* Private variables ---------------------------------------------------------*/
+  32          /* Private function prototypes -----------------------------------------------*/
+  33          
+  34          /**
+  35            * @addtogroup TIM2_Public_Functions
+  36            * @{
+  37            */
+  38          
+  39          /**
+  40            * @brief  Deinitializes the TIM2 peripheral registers to their default reset values.
+  41            * @param  None
+  42            * @retval None
+  43            */
+  44          void TIM2_DeInit(void)
+  45          {
+  46   1        T2CON &= 0x00; /* clear T2 control register reset value */
+  47   1      }
+  48          
+  49          void TIM2_TimeBaseInit(TIM2_Init_TypeDef* TIM2_InitDef)
+  50          {
+  51   1        T2CON &= 0x00; 
+  52   1        T2CON |= (uint8_t)(TIM2_InitDef->Clock_Source) | (uint8_t)((TIM2_InitDef->Clock_Prescaler) << 7) | (uint8
+             -_t)((TIM2_InitDef->Reload_Mode) << 3);
+C51 COMPILER V9.59.0.0   CMS8S003X_TIM2                                                    06/27/2018 00:53:10 PAGE 2   
+
+  53   1        
+  54   1        TH2 = ((TIM2_InitDef->Init_Value) >> 8)&0xFF;
+  55   1        TL2 = (TIM2_InitDef->Init_Value)&0xFF;
+  56   1      }
+  57          
+  58          void TIM2_OCInit(TIM2_OC_Init_TypeDef* TIM2_OCTpye)
+  59          {
+  60   1        /* Clear and Set TIM2 OC T2CON bit */
+  61   1        T2CON &= ~0x44;
+  62   1        T2CON |= (((uint8_t)(TIM2_OCTpye->OC_Mode << 2)) | ((uint8_t)(TIM2_OCTpye->OC_INT_Edge << 6)));
+  63   1      
+  64   1        switch((uint8_t)(TIM2_OCTpye->OC_Channel))
+  65   1        {
+  66   2          case TIM2_OC_Channel_0:
+  67   2              /* Set OC0 data register value */
+  68   2              RCRL = (uint8_t)(TIM2_OCTpye->OC_Init_Value);
+  69   2              RCRH = (uint8_t)(TIM2_OCTpye->OC_Init_Value >> 8);
+  70   2              
+  71   2              /* Clear and Set CCEN CML0 */
+  72   2              CCEN &= ~0x03;
+  73   2              CCEN |= (uint8_t)(TIM2_OCTpye->OC_CMLx);
+  74   2              break;
+  75   2          case TIM2_OC_Channel_1:
+  76   2              /* Set OC1 data register value */
+  77   2              CCL1 = (uint8_t)(TIM2_OCTpye->OC_Init_Value);
+  78   2              CCH1 = (uint8_t)(TIM2_OCTpye->OC_Init_Value >> 8);
+  79   2          
+  80   2              /* Clear and Set CCEN CML1 */
+  81   2              CCEN &= ~0x0C;
+  82   2              CCEN |= (uint8_t)(TIM2_OCTpye->OC_CMLx);
+  83   2              break;
+  84   2          case TIM2_OC_Channel_2:
+  85   2              /* Set OC2 data register value */
+  86   2              CCL2 = (uint8_t)(TIM2_OCTpye->OC_Init_Value);
+  87   2              CCH2 = (uint8_t)(TIM2_OCTpye->OC_Init_Value >> 8);
+  88   2          
+  89   2              /* Clear and Set CCEN CML2 */
+  90   2              CCEN &= ~0x30;
+  91   2              CCEN |= (uint8_t)(TIM2_OCTpye->OC_CMLx);
+  92   2              break;
+  93   2          case TIM2_OC_Channel_3:
+  94   2              /* Set OC3 data register value */
+  95   2              CCL3 = (uint8_t)(TIM2_OCTpye->OC_Init_Value);
+  96   2              CCH3 = (uint8_t)(TIM2_OCTpye->OC_Init_Value >> 8);
+  97   2          
+  98   2              /* Clear and Set CCEN CML3 */
+  99   2              CCEN &= ~0xC0;
+ 100   2              CCEN |= (uint8_t)(TIM2_OCTpye->OC_CMLx);
+ 101   2              break;
+ 102   2          default: break;
+ 103   2        }
+ 104   1      }
+ 105          
+ 106          void TIM2_ICInit(TIM2_IC_Init_TypeDef* TIM2_ICTpye)
+ 107          {
+ 108   1        /* Clear and Set T2CON IC bits */
+ 109   1        T2CON &= ~0x40;
+ 110   1        T2CON |= (uint8_t)(TIM2_ICTpye->IC_INT_Edge);
+ 111   1        
+ 112   1        switch((uint8_t)(TIM2_ICTpye->IC_Channel))
+ 113   1        {
+ 114   2          case TIM2_IC_Channel_0:
+C51 COMPILER V9.59.0.0   CMS8S003X_TIM2                                                    06/27/2018 00:53:10 PAGE 3   
+
+ 115   2              CAPCR0 &= 0xF0;
+ 116   2              CAPCR0 |= ((uint8_t)(TIM2_ICTpye->IC_Select));
+ 117   2              break;
+ 118   2          case TIM2_IC_Channel_1:
+ 119   2              CAPCR0 &= 0x0F;
+ 120   2              CAPCR0 |= ((uint8_t)(TIM2_ICTpye->IC_Select));
+ 121   2              break;
+ 122   2          case TIM2_IC_Channel_2:
+ 123   2              CAPCR1 &= 0xF0;
+ 124   2              CAPCR1 |= ((uint8_t)(TIM2_ICTpye->IC_Select));
+ 125   2              break;
+ 126   2          case TIM2_IC_Channel_3:
+ 127   2              CAPCR1 &= 0x0F;
+ 128   2              CAPCR1 |= ((uint8_t)(TIM2_ICTpye->IC_Select));
+ 129   2              break;
+ 130   2          default: break;
+ 131   2        }
+ 132   1      }
+ 133          
+ 134          void TIM2_Cmd(FunctionalState NewState)
+ 135          {
+ 136   1      
+ 137   1      }
+*** WARNING C280 IN LINE 134 OF ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_tim2.c: 'NewState': unreferenced
+             - local variable
+ 138          
+ 139          void TIM2_ITConfig(TIM2_IT_Mask_TypeDef TIM2_Mask, TIM2_PRIORITY_TypeDef TIM2_Priority, FunctionalState Ne
+             -wState)
+ 140          {
+ 141   1        /* Clear Timer2 All interrupt bit5 */
+ 142   1        IE &= ~0x20;
+ 143   1        
+ 144   1        /* Clear and Set Timer2 IP bit5 */
+ 145   1        IP &= ~0x40;
+ 146   1        IP |= TIM2_Priority;
+ 147   1        
+ 148   1        /* Clear and Set Timer2 T2IE */
+ 149   1        T2IE &= 0;
+ 150   1        T2IE |= TIM2_Mask;
+ 151   1        
+ 152   1        /* Set Timer2 All interrupt bit5 */
+ 153   1        if (NewState != _DISABLE)
+ 154   1        {
+ 155   2            IE |= TIM2_All_IT_Enable;
+ 156   2        }
+ 157   1        else
+ 158   1        {
+ 159   2            IE |= ~TIM2_All_IT_Enable;
+ 160   2        }
+ 161   1      }
+ 162          
+ 163          FlagStatus TIM2_GetFlagStatus(TIM2_FLAG_TypeDef TIM2_FLAG)
+ 164          {
+ 165   1      
+ 166   1      }
+*** WARNING C173 IN LINE 166 OF ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_tim2.c: missing return-expressio
+             -n
+*** WARNING C280 IN LINE 163 OF ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_tim2.c: 'TIM2_FLAG': unreference
+             -d local variable
+ 167          
+ 168          void TIM2_ClearFlag(TIM2_FLAG_TypeDef TIM2_FLAG)
+ 169          {
+C51 COMPILER V9.59.0.0   CMS8S003X_TIM2                                                    06/27/2018 00:53:10 PAGE 4   
+
+ 170   1      
+ 171   1      }
+*** WARNING C280 IN LINE 168 OF ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_tim2.c: 'TIM2_FLAG': unreference
+             -d local variable
+ 172          
+ 173          ITStatus TIM2_GetITStatus(TIM2_IT_FLAG_TypeDef TIM2_IT)
+ 174          {
+ 175   1        ITStatus bitstatus = _RESET;
+ 176   1      
+ 177   1        uint8_t TIM0_itStatus = 0x0;
+ 178   1      
+ 179   1        TIM0_itStatus = (uint8_t)(T2IF & TIM2_IT);
+ 180   1      
+ 181   1        if (TIM0_itStatus != (uint8_t)_RESET )
+ 182   1        {
+ 183   2          bitstatus = _SET;
+ 184   2        }
+ 185   1        else
+ 186   1        {
+ 187   2          bitstatus = _RESET;
+ 188   2        }
+ 189   1        
+ 190   1        /* Return T2IF bit status */
+ 191   1        return (ITStatus)(bitstatus);
+ 192   1      }
+ 193          
+ 194          void TIM2_ClearITPendingBit(TIM2_IT_FLAG_TypeDef TIM2_IT)
+ 195          {
+ 196   1        T2IF &= (~TIM2_IT);
+ 197   1      }
+ 198          
+ 199          /**
+ 200            * @}
+ 201            */
+ 202          
+ 203          /**
+ 204            * @}
+ 205            */
+ 206          
+ 207          /************************************ (C) COPYRIGHT 2018 CMSemicon *****END OF FILE****/
+*** WARNING C290 IN LINE 166 OF ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_tim2.c: missing return value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    296    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  5 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,299 @@
+C51 COMPILER V9.59.0.0   CMS8S003X_TIM34                                                   06/27/2018 00:53:10 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE CMS8S003X_TIM34
+OBJECT MODULE PLACED IN .\Objects\cms8s003x_tim34.obj
+COMPILER INVOKED BY: D:\Install software\keil5\C51\BIN\C51.EXE ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_t
+                    -im34.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\CMS8S003_StdPeriph_Driver\inc) DEBUG PRINT(.\Listings\cms8s0
+                    -03x_tim34.lst) TABS(2) OBJECT(.\Objects\cms8s003x_tim34.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    cms8s003x_tim34.c
+   4            * @author  LI WEI
+   5            * @version V1.0.3
+   6            * @date    04/24/2018
+   7            * @brief   This file provides all the TIM1 firmware functions.
+   8            ******************************************************************************
+   9            * @copy
+  10            *
+  11            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+  12            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+  13            * TIME. AS A RESULT, CMSemicon SHALL NOT BE HELD LIABLE FOR ANY
+  14            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+  15            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+  16            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+  17            *
+  18            * <h2><center>&copy; COPYRIGHT 2018 CMSemicon</center></h2>
+  19            */
+  20          
+  21          /* Includes ------------------------------------------------------------------*/
+  22          #include "cms8s003x_tim34.h"
+  23          
+  24          /** @addtogroup CMS8S003x_StdPeriph_Driver
+  25            * @{
+  26            */
+  27          
+  28          /* Private typedef -----------------------------------------------------------*/
+  29          /* Private define ------------------------------------------------------------*/
+  30          /* Private macro -------------------------------------------------------------*/
+  31          /* Private variables ---------------------------------------------------------*/
+  32          /* Private function prototypes -----------------------------------------------*/
+  33          
+  34          /**
+  35            * @addtogroup TIM0_Public_Functions
+  36            * @{
+  37            */
+  38          
+  39          /**
+  40            * @brief  Deinitializes the TIM0 peripheral registers to their default reset values.
+  41            * @param  None
+  42            * @retval None
+  43            */
+  44          void TIM3_DeInit(void)
+  45          {
+  46   1        TMOD &= 0xf0; //timer0 gate set 0
+  47   1        TCON &= 0xCF; //timer0  control register clear
+  48   1      }
+  49          
+  50          void TIM4_DeInit(void)
+  51          {
+  52   1        TMOD &= 0xf; //timer1 gate set 0
+  53   1        TCON &= 0x3F; //timer1  control register clear
+C51 COMPILER V9.59.0.0   CMS8S003X_TIM34                                                   06/27/2018 00:53:10 PAGE 2   
+
+  54   1      }
+  55          
+  56          void TIM3_Init(TIM34_Init_TypeDef *TIM3_InitDef)
+  57          {
+  58   1        TMOD &= 0xf0; //GATE0/CT0/TOM0 clear 0-3 bit
+  59   1      
+  60   1        //CKCON clear 3 bit
+  61   1        CKCON &= 0xf7;
+  62   1        
+  63   1        //set GATE0 bit.
+  64   1        //TMOD |= 0x08;
+  65   1      
+  66   1        //Set
+  67   1        TMOD |= (((uint8_t)((TIM3_InitDef->Timer_Function) << 2)) | ((uint8_t)(TIM3_InitDef->Timer_Mode)));
+  68   1        CKCON |= ((uint8_t)((TIM3_InitDef->Timer_Clock) << 3));
+  69   1      
+  70   1        if((TIM3_InitDef->Timer_Mode) == TIM34_Mode0_13Bit_Timer_Counter)
+  71   1        {
+  72   2          TH3 = (uint8_t)((TIM3_InitDef->Timer_InitValue)>>5);
+  73   2          TL3 = (uint8_t)((TIM3_InitDef->Timer_InitValue)&0x1f);
+  74   2        }else if((TIM3_InitDef->Timer_Mode) == TIM34_Mode1_16Bit_Timer_Counter)
+  75   1        {
+  76   2          TH3 = (uint8_t)((TIM3_InitDef->Timer_InitValue)>>8);
+  77   2          TL3 = (uint8_t)((TIM3_InitDef->Timer_InitValue)&0xff);
+  78   2        }else if((TIM3_InitDef->Timer_Mode) == TIM34_Mode2_8Bit_AutoLoad_Timer_Counter)
+  79   1        {
+  80   2          TH3 = (uint8_t)((TIM3_InitDef->Timer_InitValue)&0xff);
+  81   2          TL3 = (uint8_t)((TIM3_InitDef->Timer_InitValue)&0xff);
+  82   2        }else
+  83   1        {
+  84   2      
+  85   2        }
+  86   1      }
+  87          
+  88          void TIM4_Init(TIM34_Init_TypeDef *TIM4_InitDef)
+  89          {
+  90   1      
+  91   1      }
+*** WARNING C280 IN LINE 88 OF ..\..\Libraries\CMS8S003_StdPeriph_Driver\src\cms8s003x_tim34.c: 'TIM4_InitDef': unrefere
+             -nced local variable
+  92          
+  93          void TIM3_Cmd(FunctionalState NewState)
+  94          {
+  95   1        if (NewState != _DISABLE)
+  96   1        {
+  97   2          TCON |= TIMER3_START_BIT; /* Enable the TIMER0*/
+  98   2        }
+  99   1        else
+ 100   1        {
+ 101   2          TCON &= (uint8_t)(~TIMER3_START_BIT); /* Disable the TIMER0*/
+ 102   2        }
+ 103   1      }
+ 104          
+ 105          void TIM4_Cmd(FunctionalState NewState)
+ 106          {
+ 107   1        if (NewState != _DISABLE)
+ 108   1        {
+ 109   2          TCON |= TIMER4_START_BIT; /* Enable the TIMER0*/
+ 110   2        }
+ 111   1        else
+ 112   1        {
+ 113   2          TCON &= (uint8_t)(~TIMER4_START_BIT); /* Disable the TIMER0*/
+C51 COMPILER V9.59.0.0   CMS8S003X_TIM34                                                   06/27/2018 00:53:10 PAGE 3   
+
+ 114   2        }
+ 115   1      }
+ 116          
+ 117          
+ 118          void TIM3_ITConfig(TIM34_PriorityTypeDef TIM34_Priority, FunctionalState NewState)
+ 119          {
+ 120   1        IP &= 0xfd; //clear bit 1
+ 121   1        IP |= (TIM34_Priority<<1);
+ 122   1        
+ 123   1        /* Set the SPI IT mask Register */
+ 124   1        if (NewState != _DISABLE)
+ 125   1        {
+ 126   2          IE |= TIME3_INTERRUPT_ENABLE_BIT; /* Enable the SPI IT */
+ 127   2        }
+ 128   1        else
+ 129   1        {
+ 130   2          IE &= (uint8_t)(~TIME3_INTERRUPT_ENABLE_BIT); /* Disable the SPI IT */
+ 131   2        }
+ 132   1      }
+ 133          
+ 134          void TIM4_ITConfig(TIM34_PriorityTypeDef TIM34_Priority, FunctionalState NewState)
+ 135          {
+ 136   1        IP &= 0xf7; //clear bit 3
+ 137   1        IP |= (TIM34_Priority<<3);
+ 138   1        
+ 139   1        /* Set the SPI IT mask Register */
+ 140   1        if (NewState != _DISABLE)
+ 141   1        {
+ 142   2          IE |= TIME4_INTERRUPT_ENABLE_BIT; /* Enable the SPI IT */
+ 143   2        }
+ 144   1        else
+ 145   1        {
+ 146   2          IE &= (uint8_t)(~TIME4_INTERRUPT_ENABLE_BIT); /* Disable the SPI IT */
+ 147   2        }
+ 148   1      }
+ 149          
+ 150          /**
+ 151            * @brief  Gets the TIM1 Counter value.
+ 152            * @param  None
+ 153            * @retval Counter Register value.
+ 154            */
+ 155          uint16_t TIM3_GetCounter(void)
+ 156          {
+ 157   1        /* Get the Counter Register value */
+ 158   1        uint16_t tmpcntr = 0;
+ 159   1        uint8_t tmpcntrl = 0, tmpcntrh = 0;
+ 160   1      
+ 161   1        tmpcntrh = TH3;
+ 162   1        tmpcntrl = TL3;
+ 163   1      
+ 164   1        tmpcntr  = (uint16_t)(tmpcntrl);
+ 165   1        tmpcntr |= (uint16_t)((uint16_t)tmpcntrh << 8);
+ 166   1      
+ 167   1        /* Get the Counter Register value */
+ 168   1        return (uint16_t)tmpcntr;
+ 169   1      }
+ 170          
+ 171          uint16_t TIM4_GetCounter(void)
+ 172          {
+ 173   1        /* Get the Counter Register value */
+ 174   1        uint16_t tmpcntr = 0;
+ 175   1        uint8_t tmpcntrl = 0, tmpcntrh = 0;
+C51 COMPILER V9.59.0.0   CMS8S003X_TIM34                                                   06/27/2018 00:53:10 PAGE 4   
+
+ 176   1      
+ 177   1        tmpcntrh = TH4;
+ 178   1        tmpcntrl = TL4;
+ 179   1      
+ 180   1        tmpcntr  = (uint16_t)(tmpcntrl);
+ 181   1        tmpcntr |= (uint16_t)((uint16_t)tmpcntrh << 8);
+ 182   1      
+ 183   1        /* Get the Counter Register value */
+ 184   1        return (uint16_t)tmpcntr;
+ 185   1      }
+ 186          /**
+ 187            * @brief  Checks whether the TIM1 interrupt has occurred or not.
+ 188            * @param  TIM1_IT specifies the TIM1 interrupt source to check.
+ 189            *   This parameter can be one of the @ref TIM1_IT_TypeDef enumeration.
+ 190            * @retval ITStatus The new state of the TIM1_IT(SET or RESET).
+ 191            */
+ 192          
+ 193          ITStatus TIM3_GetITStatus(void)
+ 194          {
+ 195   1        ITStatus bitstatus = _RESET;
+ 196   1      
+ 197   1        uint8_t TIM3_itStatus = 0x0;
+ 198   1      
+ 199   1        /* Check the parameters */
+ 200   1        //assert_param(IS_TIM1_GET_IT(TIM1_IT));
+ 201   1      
+ 202   1        TIM3_itStatus = (uint8_t)(TCON & 0x20);
+ 203   1      
+ 204   1        if (TIM3_itStatus != (uint8_t)_RESET )
+ 205   1        {
+ 206   2          bitstatus = _SET;
+ 207   2        }
+ 208   1        else
+ 209   1        {
+ 210   2          bitstatus = _RESET;
+ 211   2        }
+ 212   1        return (ITStatus)(bitstatus);
+ 213   1      }
+ 214          
+ 215          ITStatus TIM4_GetITStatus(void)
+ 216          {
+ 217   1        ITStatus bitstatus = _RESET;
+ 218   1      
+ 219   1        uint8_t TIM4_itStatus = 0x0;
+ 220   1      
+ 221   1        /* Check the parameters */
+ 222   1        //assert_param(IS_TIM1_GET_IT(TIM1_IT));
+ 223   1      
+ 224   1        TIM4_itStatus = (uint8_t)(TCON & 0x80);
+ 225   1      
+ 226   1        if (TIM4_itStatus != (uint8_t)_RESET )
+ 227   1        {
+ 228   2          bitstatus = _SET;
+ 229   2        }
+ 230   1        else
+ 231   1        {
+ 232   2          bitstatus = _RESET;
+ 233   2        }
+ 234   1        return (ITStatus)(bitstatus);
+ 235   1      }
+ 236          
+ 237          /**
+C51 COMPILER V9.59.0.0   CMS8S003X_TIM34                                                   06/27/2018 00:53:10 PAGE 5   
+
+ 238            * @brief  Clears the TIM0's interrupt pending bits.
+ 239            * @param  TIM1_IT specifies the pending bit to clear.
+ 240            *   This parameter can be one of the @ref TIM1_IT_TypeDef enumeration.
+ 241            * @retval None.
+ 242            */
+ 243          void TIM3_ClearITPendingBit(void)
+ 244          {
+ 245   1        TCON &= 0xdf;
+ 246   1      }
+ 247          
+ 248          void TIM4_ClearITPendingBit(void)
+ 249          {
+ 250   1        TCON &= 0x7f;
+ 251   1      }
+ 252          /**
+ 253            * @}
+ 254            */
+ 255          
+ 256          /**
+ 257            * @}
+ 258            */
+ 259          
+ 260          /************************************ (C) COPYRIGHT 2018 CMSemicon *****END OF FILE****/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    263    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
